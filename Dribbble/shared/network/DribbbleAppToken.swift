@@ -12,8 +12,8 @@ import Keys
 
 fileprivate struct DribbbleAPIConfig {
   fileprivate static let keys = DribbbleKeys()
-  static let clientSecret = keys.dribbbleClientSecret()!
-  static let clientAccessToken = keys.dribbbleClientAccessToken()!
+  static let clientSecret = keys.dribbbleClientSecret
+  static let clientAccessToken = keys.dribbbleClientAccessToken
   static let ts = Date().timeIntervalSince1970.description
   static let publicBearer = "Bearer: \(clientAccessToken)"
 }
