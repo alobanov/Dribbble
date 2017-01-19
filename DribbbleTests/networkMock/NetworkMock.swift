@@ -13,4 +13,5 @@ import Dribbble
 
 class NetworkMock {
   static var api = Networking.mockNetworking().provider
+  static var apiHelper = NetworkHelper(api: Networking.mockNetworking())
 }

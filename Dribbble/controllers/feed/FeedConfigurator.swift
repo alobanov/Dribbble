@@ -19,7 +19,7 @@ class FeedConfigurator
     router.viewController = viewController
     
     // dependencies
-    let api = NetworkHelper(networking: Networking.debugNetworking())
+    let api = NetworkHelper(api: Networking.debugNetworking())
     
     // view model
     let viewModel = FeedViewModel(

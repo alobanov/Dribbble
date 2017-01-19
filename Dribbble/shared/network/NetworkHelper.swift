@@ -18,8 +18,8 @@ class NetworkHelper {
   // Singletone
   private let $ = Schedulers.shared
   
-  init(networking: Networking) {
-    api = networking
+  init(api: Networking) {
+    self.api = api
   }
   
   deinit {

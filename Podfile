@@ -20,13 +20,12 @@ plugin 'cocoapods-keys', {
   pod 'Moya/RxSwift'
   pod 'ObjectMapper'
   pod 'ReachabilitySwift'
-  pod 'SwiftyJSON'
+  pod 'RxDataSources'
 
   target 'Dribbble' do
 
     # UI
     pod 'UIColor_Hex_Swift'
-    pod 'RxDataSources'
     pod 'PopupDialog'
     pod 'CryptoSwift'
     pod 'Kingfisher'

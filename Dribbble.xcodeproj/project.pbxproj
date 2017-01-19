@@ -73,6 +73,7 @@
 		E8376DE71E2FCC6500F2F2B9 /* DribbbleAppToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6F9D1E2F42B300A1F7AA /* DribbbleAppToken.swift */; };
 		E8376DE81E2FCC7600F2F2B9 /* ObjectsEmptyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */; };
 		E8376DE91E2FCCA300F2F2B9 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FA01E2F437F00A1F7AA /* FileReader.swift */; };
+		E8C712CC1E30E1820084AEF0 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D70181E2F62FC00A1F7AA /* NetworkHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -849,6 +850,7 @@
 				E8376DE61E2FCC5500F2F2B9 /* GlobalFunctions.swift in Sources */,
 				E8230D281E30AA440040317C /* RxSchedulers.swift in Sources */,
 				E8376DE01E2FCA6A00F2F2B9 /* FeedNetSpec.swift in Sources */,
+				E8C712CC1E30E1820084AEF0 /* NetworkHelper.swift in Sources */,
 				E8230D211E30A8510040317C /* RxViewModel.swift in Sources */,
 				E8230D271E30AA300040317C /* ObjectMappable.swift in Sources */,
 				E8376DE91E2FCCA300F2F2B9 /* FileReader.swift in Sources */,
