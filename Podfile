@@ -32,9 +32,7 @@ plugin 'cocoapods-keys', {
     pod 'Font-Awesome-Swift'
     
     # Helpers
-    pod 'SwiftGen'
     pod 'SwiftyUserDefaults'
-    pod 'KeyboardObserver'
     pod 'SwiftMessages'
     pod 'SwiftDate'
     pod 'OAuthSwift'
