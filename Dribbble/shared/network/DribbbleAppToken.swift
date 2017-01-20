@@ -51,7 +51,7 @@ struct DribbleAppToken {
                 return key
             } else {
                 // public tocken
-                return DribbbleAPIConfig.clientAccessToken
+                return DribbbleAPIConfig.clientAccessToken()
             }
         }
         set(newToken) {
