@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FeedConfigurator
 {
@@ -20,10 +21,11 @@ class FeedConfigurator
     
     // dependencies
     let api = Networking.debugNetworking()
+    let realm = try! Realm()
     
     // view model
     let viewModel = FeedViewModel(
-      dependencies: (view: viewController, router: router, api: api)
+      dependencies: (view: viewController, router: router, api: api, realm: realm)
     )
     
     // controller

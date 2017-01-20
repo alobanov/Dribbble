@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 protocol FeedViewModelTestable {
   func prepareShotList(list: [ShotModel]) -> [ModelSection]
@@ -50,6 +51,7 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   fileprivate weak var view: FeedInput!
   fileprivate var api: Networking!
   var router: FeedRouterInput!
+  var realm: Realm?
   
   // MARK:- properties
   // FeedOutput
@@ -65,11 +67,13 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   init(dependencies:(
     view: FeedInput,
     router: FeedRouterInput,
-    api: Networking
+    api: Networking,
+    realm: Realm?
     )) {
     self.view = dependencies.view
     self.router = dependencies.router
     self.api = dependencies.api
+    self.realm = dependencies.realm
     
     super.init()
   }
@@ -112,7 +116,7 @@ extension FeedViewModel {
     let res = api
       .provider
       .request(DribbbleAPI.shots(page: 1, list: nil, timeframe: nil, date: nil, sort: nil))
-      .mapJSONObjectArray(ShotModel.self)
+      .mapJSONObjectArray(ShotModel.self, realm: self.realm)
     
     self.handleResponse(res)
     .map({ l -> [ModelSection] in return self.prepareShotList(list: l) })
