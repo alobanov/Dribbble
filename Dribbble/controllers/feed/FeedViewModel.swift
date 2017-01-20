@@ -10,6 +10,16 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+protocol FeedViewModelTestable {
+  func prepareShotList(list: [ShotModel]) -> [ModelSection]
+}
+
+protocol FeedRouterInput
+{
+  func passDataToNextScene(segue: UIStoryboardSegue)
+  func navigateTo()
+}
+
 protocol FeedModuleOutput: class {
 
 }
@@ -19,21 +29,26 @@ protocol FeedModuleInput {
 }
 
 protocol FeedOutput: RxModelOutput {
+  // dependencies
   var router: FeedRouterInput! {get}
+  
+  // initialization rx.cocoa
+  func confRx(signin: Driver<Void>)
+  
+  // observable
   var title: Variable<String> {get}
   var items: Observable<[ModelSection]> {get}
-  func confRx(signin: Driver<Void>)
 }
 
 protocol FeedInput: class {
 //  func show(error: NSError)
 }
 
-class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput {
+class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTestable {
   
   // MARK:- dependencies
   fileprivate weak var view: FeedInput!
-  fileprivate var api: NetworkHelper!
+  fileprivate var api: Networking!
   var router: FeedRouterInput!
   
   // MARK:- properties
@@ -46,10 +61,11 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput {
   // Private
   
   // MARK:- init
+  
   init(dependencies:(
     view: FeedInput,
     router: FeedRouterInput,
-    api: NetworkHelper
+    api: Networking
     )) {
     self.view = dependencies.view
     self.router = dependencies.router
@@ -59,6 +75,7 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput {
   }
   
   // Output
+  
   func confRx(signin: Driver<Void>) {
     signin.drive(onNext: {
       self.obtainShots()
@@ -92,7 +109,10 @@ extension FeedViewModel {
       return
     }
     
-    let res = api.shots(page: 1, list: nil, timeframe: nil, date: nil, sort: nil)
+    let res = api
+      .provider
+      .request(DribbbleAPI.shots(page: 1, list: nil, timeframe: nil, date: nil, sort: nil))
+      .mapJSONObjectArray(ShotModel.self)
     
     self.handleResponse(res)
     .map({ l -> [ModelSection] in return self.prepareShotList(list: l) })

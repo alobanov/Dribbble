@@ -38,7 +38,7 @@ extension Observable {
     }
   }
   
-  func mapJSONObject<T: ObjectMappable>(_ type: T.Type, writeDB: Bool = false) -> Observable<T> {
+  func mapJSONObject<T: ObjectMappable>(_ type: T.Type, realm: Realm? = nil) -> Observable<T> {
     func resultFromJSON(_ object: [String: AnyObject], classType: T.Type) -> T? {
       return Mapper<T>().map(JSON: object)
     }
@@ -60,12 +60,11 @@ extension Observable {
       let obj: T = resultFromJSON(json, classType: type)!
       
       do {
-        if writeDB {
+        if let r = realm {
           let objR: T = resultFromJSON(json, classType: type)!
-          let realm = try Realm()
-          realm.beginWrite()
-          realm.add(objR, update: true)
-          try realm.commitWrite()
+          r.beginWrite()
+          r.add(objR, update: true)
+          try r.commitWrite()
         }
         
         return obj
@@ -75,7 +74,7 @@ extension Observable {
     }
   }
   
-  func mapJSONObjectArray<T: ObjectMappable>(_ type: T.Type, writeDB: Bool = false) -> Observable < [T] > {
+  func mapJSONObjectArray<T: ObjectMappable>(_ type: T.Type, realm: Realm? = nil) -> Observable < [T] > {
     func resultFromJSON(_ object: [String: AnyObject], classType: T.Type) -> T? {
       return Mapper<T>().map(JSON: object)
     }
@@ -102,7 +101,7 @@ extension Observable {
         }
       }
       
-      if writeDB {
+      if let r = realm {
         do {
           var objectsR = [T]()
           for dict in json {
@@ -111,10 +110,9 @@ extension Observable {
             }
           }
           
-          let realm = try Realm()
-          realm.beginWrite()
-          realm.add(objectsR, update: true)
-          try realm.commitWrite()
+          r.beginWrite()
+          r.add(objectsR, update: true)
+          try r.commitWrite()
         } catch {
           throw ORMError.ormCouldNotMakeObjectError(objectName: NSStringFromClass(T.self)).error
         }
@@ -127,7 +125,7 @@ extension Observable {
 
 // MARK:- Mapping from serialized dictionary
 extension Observable {
-  func mapModelFromDict<T: ObjectMappable>(_ type: T.Type, writeDB: Bool = false) -> Observable<T> {
+  func mapModelFromDict<T: ObjectMappable>(_ type: T.Type, realm: Realm? = nil) -> Observable<T> {
     func resultFromJSON(_ object: [String: AnyObject], classType: T.Type) -> T? {
       return Mapper<T>().map(JSON: object)
     }
@@ -139,13 +137,12 @@ extension Observable {
       
       let obj: T = resultFromJSON(json, classType: type)!
       
-      if writeDB {
+      if let r = realm {
         do {
           let objR: T = resultFromJSON(json, classType: type)!
-          let realm = try Realm()
-          realm.beginWrite()
-          realm.add(objR, update: true)
-          try realm.commitWrite()
+          r.beginWrite()
+          r.add(objR, update: true)
+          try r.commitWrite()
         } catch {
           throw ORMError.ormCouldNotMakeObjectError(objectName: NSStringFromClass(T.self)).error
         }
@@ -155,7 +152,7 @@ extension Observable {
     }
   }
   
-  func mapModelFromArray<T: ObjectMappable>(_ type: T.Type, writeDB: Bool = false) -> Observable < [T] > {
+  func mapModelFromArray<T: ObjectMappable>(_ type: T.Type, realm: Realm? = nil) -> Observable < [T] > {
     func resultFromJSON(_ object: [String: AnyObject], classType: T.Type) -> T? {
       return Mapper<T>().map(JSON: object)
     }
@@ -172,7 +169,7 @@ extension Observable {
         }
       }
       
-      if writeDB {
+      if let r = realm {
         do {
           var objectsR = [T]()
           for dict in json {
@@ -181,10 +178,9 @@ extension Observable {
             }
           }
           
-          let realm = try Realm()
-          realm.beginWrite()
-          realm.add(objectsR, update: true)
-          try realm.commitWrite()
+          r.beginWrite()
+          r.add(objectsR, update: true)
+          try r.commitWrite()
         } catch {
           throw ORMError.ormCouldNotMakeObjectError(objectName: NSStringFromClass(T.self)).error
         }

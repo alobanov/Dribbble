@@ -24,11 +24,13 @@ class FeedNetSpec: QuickSpec {
     describe("Feed items request") {
 
       beforeEach {
-        NetworkMock.api.request(DribbbleAPI.shots(page: 1, list: nil, timeframe: nil, date: nil, sort: nil))
-          .mapJSONObjectArray(ShotModel.self)
-          .subscribe(onNext: { shots in
+        Networking.mockNetworking().provider.request(DribbbleAPI.shots(page: 1, list: nil, timeframe: nil, date: nil, sort: nil))
+          .mapJSONObjectArray(ShotModel.self).subscribe(onNext: { shots in
             self.shots = shots
-          }).addDisposableTo(self.bag)
+          }, onError: { err in
+            print("Error")
+          })
+          .addDisposableTo(self.bag)
       }
 
       it("not empty") {

@@ -38,7 +38,7 @@ class NetworkHelper {
    */
   func shots(page: Int, list: String?, timeframe: String?, date: Date?, sort: String?) -> Observable <[ShotModel]> {
     return api.provider.request(DribbbleAPI.shots(page: page, list: list, timeframe: timeframe, date: date, sort: sort))
-      .mapJSONObjectArray(ShotModel.self, writeDB: true)
+      .mapJSONObjectArray(ShotModel.self)
   }
 }
 
