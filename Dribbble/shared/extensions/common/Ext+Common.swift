@@ -19,4 +19,3 @@ extension Double {
     return String(format: "%\(f)f", self)
   }
 }
-

@@ -32,6 +32,7 @@ class FeedModelSpec: QuickSpec {
   var modelTestable: FeedViewModelTestable!
   var bag: DisposeBag = DisposeBag()
   var api = Networking.mockNetworking()
+  var appSettings = AppSettingsStorage.shared
   
   override func spec() {
     describe("Feed items request") {
@@ -40,15 +41,17 @@ class FeedModelSpec: QuickSpec {
       
       beforeEach {
         testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "test"))
-        self.model = FeedViewModel(dependencies: (view: FeedControllerMock(), router: FeedRouterMock(), api: self.api))
+        self.model = FeedViewModel(dependencies: (view: FeedControllerMock(), router: FeedRouterMock(), api: self.api, realm: testRealm, appSettings: self.appSettings))
         self.modelTestable = self.model as FeedViewModelTestable
       }
       
       it("test public protocol FeedOutput") {
-        self.model.items.skip(1).subscribe(onNext: { list in
-          expect(list.count).to(equal(1))
-          let section: ModelSection = list[0]
-          expect(section.items.count).to(equal(50))
+        self.model.items
+          .skip(2) // skip twice !!!
+          .subscribe(onNext: { list in
+            expect(list.count).to(equal(1))
+            let section: ModelSection = list[0]
+            expect(section.items.count).to(equal(50))
         }).addDisposableTo(self.bag)
         
         let btn = UIButton()
@@ -59,7 +62,6 @@ class FeedModelSpec: QuickSpec {
         
         self.model.title.asObservable()
           .subscribe(onNext: { s in
-            
             expect(s).to(equal("Rx Request"))
           }).addDisposableTo(self.bag)
       }
@@ -69,21 +71,27 @@ class FeedModelSpec: QuickSpec {
           .mapJSONObjectArray(ShotModel.self, realm: testRealm)
           .subscribe(onNext: { shots in
             let wrappedShotModels = self.modelTestable.prepareShotList(list: shots)
+            
+            // TEST of mock request result
             expect(wrappedShotModels.count).to(equal(1))
             
-            let section: ModelSection = wrappedShotModels[0]
             // TEST of section
+            let section: ModelSection = wrappedShotModels[0]
             expect(section.identity).to(equal(""))
             
-            let sectionItem: ModelSectionItem = section.items[0]
             // TEST of section item
-            expect(sectionItem.identity).to(equal("3224893"))
+            let sectionItem: ModelSectionItem = section.items[0]
             expect(sectionItem.model.unic).toEventuallyNot(beNil())
-            expect(sectionItem.model.unic).to(equal("3224893"))
+            expect(sectionItem.model.unic).to(equal("Optional(2017-01-18T10:00:03Z)"))
             
-            let items = testRealm.objects(ShotModel.self)
             // TEST of realm object saving
+            let items = testRealm.objects(ShotModel.self)
             expect(items.count).to(equal(50))
+            
+            // TEST saving firs page
+            self.modelTestable.saveFirstPageIDs(ids: [3225396,3224770])
+            let cachedShots = self.modelTestable.prepareShotsFirstPage()
+            expect(cachedShots[0].items.count).to(equal(2))
             
           }).addDisposableTo(self.bag)
       }

@@ -23,6 +23,7 @@ class ShotModel: ObjectMappable, ModelItemDatasourseble {
   dynamic var user: UserModel?
   dynamic var created_at: NSDate?
   dynamic var updated_at: NSDate?
+  dynamic var str_updated_at: NSString?
   
   // statistics
   dynamic var likes: Int = 0
@@ -48,6 +49,8 @@ class ShotModel: ObjectMappable, ModelItemDatasourseble {
     
     created_at <- (map["created_at"], ServerDateTransform())
     updated_at <- (map["updated_at"], ServerDateTransform())
+    
+    str_updated_at <- map["updated_at"]
   }
   
   override class func primaryKey() -> String {
@@ -55,7 +58,6 @@ class ShotModel: ObjectMappable, ModelItemDatasourseble {
   }
   
   var unic: String? {
-    return "\(self.shotId)"
+    return "\(str_updated_at)"
   }
 }
-

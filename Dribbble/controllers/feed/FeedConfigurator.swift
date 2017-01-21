@@ -15,6 +15,8 @@ class FeedConfigurator
   
   class func configure(viewController: FeedViewController)
   {
+    _ = DBManager.sharedInstance
+    
     // router
     let router = FeedRouter()
     router.viewController = viewController
@@ -22,10 +24,11 @@ class FeedConfigurator
     // dependencies
     let api = Networking.debugNetworking()
     let realm = try! Realm()
+    let appSettings = AppSettingsStorage.shared
     
     // view model
     let viewModel = FeedViewModel(
-      dependencies: (view: viewController, router: router, api: api, realm: realm)
+      dependencies: (view: viewController, router: router, api: api, realm: realm, appSettings: appSettings)
     )
     
     // controller

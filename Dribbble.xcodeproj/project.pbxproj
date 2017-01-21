@@ -65,6 +65,9 @@
 		E8376DE81E2FCC7600F2F2B9 /* ObjectsEmptyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */; };
 		E89A79061E31FC510074FDF8 /* FeedModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */; };
 		E89A790A1E322EE80074FDF8 /* Feed.json in Resources */ = {isa = PBXBuildFile; fileRef = E8376DD91E2FC6C500F2F2B9 /* Feed.json */; };
+		E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790B1E3259970074FDF8 /* Realm+Extension.swift */; };
+		E89A790F1E325AFE0074FDF8 /* SettingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */; };
+		E89A79111E337EFE0074FDF8 /* AppSettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79101E337EFE0074FDF8 /* AppSettingsStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +144,9 @@
 		E8376DDC1E2FC6FB00F2F2B9 /* NetworkMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMock.swift; sourceTree = "<group>"; };
 		E8376DDF1E2FCA6A00F2F2B9 /* FeedNetSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNetSpec.swift; sourceTree = "<group>"; };
 		E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModelSpec.swift; sourceTree = "<group>"; };
+		E89A790B1E3259970074FDF8 /* Realm+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extension.swift"; sourceTree = "<group>"; };
+		E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingStorage.swift; sourceTree = "<group>"; };
+		E89A79101E337EFE0074FDF8 /* AppSettingsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsStorage.swift; sourceTree = "<group>"; };
 		FE1EDBE5D9A1C18FA5891CDD /* Pods-DribbbleCommon-Dribbble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleCommon-Dribbble.release.xcconfig"; path = "Pods/Target Support Files/Pods-DribbbleCommon-Dribbble/Pods-DribbbleCommon-Dribbble.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -398,6 +404,7 @@
 				E82D6FF11E2F4B9C00A1F7AA /* Ext+Common.swift */,
 				E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */,
 				E82D6FF31E2F4B9C00A1F7AA /* String+NSAttributedString.swift */,
+				E89A790B1E3259970074FDF8 /* Realm+Extension.swift */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -454,6 +461,7 @@
 			isa = PBXGroup;
 			children = (
 				E82D701F1E2F66F600A1F7AA /* GlobalFunctions.swift */,
+				E89A79101E337EFE0074FDF8 /* AppSettingsStorage.swift */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -485,6 +493,7 @@
 		E82D702C1E2F742A00A1F7AA /* realm */ = {
 			isa = PBXGroup;
 			children = (
+				E89A790D1E325AE50074FDF8 /* staticTables */,
 				E82D702F1E2F745C00A1F7AA /* ShotImageModel.swift */,
 				E82D70301E2F745C00A1F7AA /* UserModel.swift */,
 				E82D702D1E2F744600A1F7AA /* ShotModel.swift */,
@@ -592,6 +601,14 @@
 				E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */,
 			);
 			path = feed;
+			sourceTree = "<group>";
+		};
+		E89A790D1E325AE50074FDF8 /* staticTables */ = {
+			isa = PBXGroup;
+			children = (
+				E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */,
+			);
+			path = staticTables;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -806,6 +823,7 @@
 				E82D70061E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift in Sources */,
 				E82D703F1E2F922C00A1F7AA /* CollectionSectionModel.swift in Sources */,
 				E82D70251E2F67B200A1F7AA /* Popup.swift in Sources */,
+				E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */,
 				E82D701D1E2F632700A1F7AA /* DribbbleAPI.swift in Sources */,
 				E82D70071E2F4B9C00A1F7AA /* Observable+GreatMapper.swift in Sources */,
 				E82D70001E2F4B9C00A1F7AA /* TableView+ReusableView.swift in Sources */,
@@ -841,6 +859,8 @@
 				E82D6FFE1E2F4B9C00A1F7AA /* UIAlertController+Additional.swift in Sources */,
 				E82D70081E2F4B9C00A1F7AA /* Observable+Operators.swift in Sources */,
 				E82D6FA71E2F437F00A1F7AA /* RxViewModel.swift in Sources */,
+				E89A790F1E325AFE0074FDF8 /* SettingStorage.swift in Sources */,
+				E89A79111E337EFE0074FDF8 /* AppSettingsStorage.swift in Sources */,
 				E82D6F991E2E60B100A1F7AA /* AppDelegate.swift in Sources */,
 				E8376DBE1E2FA45100F2F2B9 /* UICollectionView+Additions.swift in Sources */,
 				E82D70011E2F4B9C00A1F7AA /* UITableView+Additions.swift in Sources */,
