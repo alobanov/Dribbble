@@ -17,12 +17,6 @@ protocol FeedViewModelTestable {
   func saveFirstPageIDs(ids: [Int])
 }
 
-protocol FeedRouterInput
-{
-  func passDataToNextScene(segue: UIStoryboardSegue)
-  func navigateTo()
-}
-
 protocol FeedModuleOutput: class {
 
 }
@@ -159,7 +153,7 @@ extension FeedViewModel {
       .mapJSONObjectArray(ShotModel.self, realm: self.realm)
     
     self.handleResponse(res)
-    .map({ l -> [ModelSection] in
+      .map({ l -> [ModelSection] in
       if page == 1 {
         let ids = l.map { $0.shotId }
         self.saveFirstPageIDs(ids: ids)

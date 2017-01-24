@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol FeedRouterInput
+{
+    func passDataToNextScene(segue: UIStoryboardSegue)
+    func navigateTo()
+}
+
 
 class FeedRouter: FeedRouterInput
 {
