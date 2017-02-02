@@ -64,6 +64,10 @@ class FeedViewController: UIViewController, FeedInput {
     model.title.asObservable()
       .bindTo(self.rx.title)
       .addDisposableTo(disposeBag)
+    
+    self.collectionView.rx.reachedBottom
+      .bindTo(model.loadNextPageTrigger)
+      .addDisposableTo(disposeBag)
   }
   
   func configureUI() {

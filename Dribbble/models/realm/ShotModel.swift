@@ -61,3 +61,12 @@ class ShotModel: ObjectMappable, ModelItemDatasourseble {
     return "\(str_updated_at)"
   }
 }
+
+// MARK:- PONSO
+// MARK: Feed cell
+
+extension ShotModel {
+  func feedModel() -> FeedCellModel {
+    return FeedCellModel(shot: self)
+  }
+}

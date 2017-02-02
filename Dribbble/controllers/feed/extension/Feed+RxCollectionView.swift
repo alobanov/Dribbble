@@ -35,6 +35,7 @@ extension FeedViewController {
     rxTableViewDataSource(dataSource)
     
     viewModel.items
+      .asObservable()
       .bindTo(self.collectionView.rx.items(dataSource: dataSource))
       .addDisposableTo(disposeBag)
     

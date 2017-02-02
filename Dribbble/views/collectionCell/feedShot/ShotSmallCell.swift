@@ -48,26 +48,23 @@ class ShotSmallCell: UICollectionViewCell, CellReloadeble, CellIdentifiable {
   
   
   func reload(with model: ModelItemDatasourseble) {
-    guard let m = model as? ShotModel else { return }
+    guard let m = model as? FeedCellModel else { return }
     
-    likeCntLabel.text = " \(m.likes)"
-    commentCntLabel.text = " \(m.comments)"
-    viewCntLabel.text = " \(m.views)"
-
-    var urlStr: String!
-
-    if !m.animated {
-      urlStr = m.image!.hidpi ?? m.image!.normal!
-    } else {
-      urlStr = m.image!.teaser!
-    }
+    likeCntLabel.text = m.likes
+    commentCntLabel.text = m.commnets
+    viewCntLabel.text = m.views
     
-    if let image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: urlStr) {
+    if let image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: m.imagePath) {
       self.shotImageView.image = image
       return
     }
     
-    self.imageTask = self.shotImageView.kf.setImage(with: URL(string: urlStr)!, placeholder: nil, options: [.backgroundDecode, .transition(ImageTransition.fade(0.3)), .cacheMemoryOnly], progressBlock: nil, completionHandler: nil)
+    self.imageTask = self.shotImageView.kf
+      .setImage(with: URL(string: m.imagePath)!,
+                placeholder: nil,
+                options: [.transition(ImageTransition.fade(0.3)), .cacheMemoryOnly],
+                progressBlock: nil,
+                completionHandler: nil)
   }
   
 }
