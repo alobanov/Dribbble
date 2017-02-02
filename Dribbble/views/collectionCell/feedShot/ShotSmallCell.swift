@@ -62,7 +62,7 @@ class ShotSmallCell: UICollectionViewCell, CellReloadeble, CellIdentifiable {
     self.imageTask = self.shotImageView.kf
       .setImage(with: URL(string: m.imagePath)!,
                 placeholder: nil,
-                options: [.transition(ImageTransition.fade(0.3)), .cacheMemoryOnly],
+                options: [.transition(ImageTransition.fade(0.3)), .targetCache(ImageCache.default)],
                 progressBlock: nil,
                 completionHandler: nil)
   }

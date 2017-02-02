@@ -12,9 +12,9 @@ import RxCocoa
 import RealmSwift
 
 protocol FeedViewModelTestable {
-  func prepareShotList(list: [FeedCellModel]) -> [ModelSection]
-  func prepareShotsFirstPage() -> [ModelSection]
-  func saveFirstPageIDs(ids: [Int])
+  func prepareForDatasource(list: [FeedCellModel]) -> [ModelSection]
+  func prepareFirstPageFromCache() -> [FeedCellModel]
+  func saveFirstPage(by: [FeedCellModel])
 }
 
 protocol FeedModuleOutput: class {
@@ -34,8 +34,9 @@ protocol FeedOutput: RxModelOutput {
   
   // observable
   var title: Variable<String> {get}
-  var items: Variable<[ModelSection]> {get}
+  var datasourceItems: Variable<[ModelSection]> {get}
   var loadNextPageTrigger: PublishSubject<Void> {get}
+  var refreshTrigger: PublishSubject<Void> {get}
 }
 
 protocol FeedInput: class {
@@ -53,9 +54,10 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   
   // MARK:- properties
   // FeedOutput
-  var title = Variable<String>("Rx Request")
-  var items = Variable<[ModelSection]>([])
+  var title = Variable<String>("Dribbble")
+  var datasourceItems = Variable<[ModelSection]>([])
   var loadNextPageTrigger = PublishSubject<Void>()
+  var refreshTrigger = PublishSubject<Void>()
   
   // Private
   fileprivate var originalItems = Variable<[FeedCellModel]>([])
@@ -83,37 +85,48 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   
   func confRx(signin: Driver<Void>) {
     
-    signin.drive(onNext: {
-      self.obtainShots(by: 1)
-    }).addDisposableTo(bag)
+//    signin.drive(onNext: {
+//      self.obtainShots(by: 1)
+//    }).disposed(by: bag)
     
-//    self.items
-//      .asObservable()
-//      .take(1)
-//      .filter{ $0.count == 0 }
-//      .map({ _ -> [ModelSection] in self.prepareShotsFirstPage() })
-//      .bindTo(self.items)
-//      .addDisposableTo(bag)
-    
-    self.originalItems.asObservable()
-      .map({ l -> [ModelSection] in
-        if self.page == 1 {
-          let ids = l.map { $0.shotId }
-          self.saveFirstPageIDs(ids: ids)
-        }
-        
-        print("ttt: Bind new items count: \(l.count)")
-        return self.prepareShotList(list: l)
-      })
-      .bindTo(self.items)
+    // Get first page from cache
+    self.datasourceItems
+      .asObservable()
+      .take(1).filter{ $0.count == 0 }
+      .map({ _ -> [FeedCellModel] in self.prepareFirstPageFromCache() })
+      .bindTo(self.originalItems)
       .addDisposableTo(bag)
     
-    self.loadNextPageTrigger
-      .filter { self._loadingState.value == .normal }
+    // binding to datasource
+    self.originalItems.asObservable()
+      .observeOn(Schedulers.shared.backgroundWorkScheduler)
+      // remove all duplicates
+      .map({ items -> [FeedCellModel] in        
+        return removeDuplicates(source: items)
+      })
+      // prepare for RxDatasource
+      .map({ l -> [ModelSection] in
+        if self.page == 1 {
+          self.saveFirstPage(by: l)
+        }
+        
+        return self.prepareForDatasource(list: l)
+      })
+      .observeOn(Schedulers.shared.mainScheduler)
+      .bindTo(self.datasourceItems)
+      .disposed(by: bag)
+    
+    // refresh first page
+    self.refreshTrigger
       .subscribe(onNext: {
-        print("ttt: obtain next page")
+        self.obtainFirstPage()
+      }).disposed(by: bag)
+    
+    // laod next page of shots
+    self.loadNextPageTrigger
+      .subscribe(onNext: {
         self.obtainNextPage()
-      }).addDisposableTo(bag)
+      }).disposed(by: bag)
   }
   
   // MARK: - Additional
@@ -123,6 +136,7 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   }
 }
 
+
 // MARK: - Additional helpers
 extension FeedViewModel {
   
@@ -130,7 +144,7 @@ extension FeedViewModel {
   ///
   /// - Parameter list: ShotModel
   /// - Returns: Wrapped array of ModelSection
-  func prepareShotList(list: [FeedCellModel]) -> [ModelSection] {
+  func prepareForDatasource(list: [FeedCellModel]) -> [ModelSection] {
     var renderItemsData: [ModelSectionItem] = []
     renderItemsData = list.map { ModelSectionItem(model: $0) }
     return [ModelSection(items: renderItemsData)]
@@ -140,32 +154,33 @@ extension FeedViewModel {
   /// Obtain last cached first page of feed
   ///
   /// - Returns: Wrapped array of ModelSection
-  func prepareShotsFirstPage() -> [ModelSection] {
+  func prepareFirstPageFromCache() -> [FeedCellModel] {
     guard let r = self.realm else { return []; }
     
     if let ids = self.appSettings?.feedFirstPage {
       let predicate = NSPredicate(format: "shotId IN %@", ids)
-      let shots = r.objects(ShotModel.self)
+      return r.objects(ShotModel.self)
         .filter(predicate)
         .sorted { ids.index(of: $0.shotId)! < ids.index(of: $1.shotId)! }
-      
-      return self.prepareShotList(list: Array(shots.map { $0.feedModel() }))
+        .map { $0.feedModel() }
     } else {
       return []
     }
   }
   
   
-  /// Saving first page of feed
+  /// Saving ids of first page
   ///
-  /// - Parameter ids: [Int]
-  func saveFirstPageIDs(ids: [Int]) {
+  /// - Parameter by: [FeedCellModel]
+  func saveFirstPage(by: [FeedCellModel]) {
+    let ids = by.map { $0.shotId }
     self.appSettings?.feedFirstPage = ids
   }
 }
 
 // MARK: - Network
 extension FeedViewModel {
+  
   func obtainNextPage() {
     self.page += 1
     self.obtainShots(by: self.page)
@@ -181,57 +196,29 @@ extension FeedViewModel {
       return
     }
     
-    let res = api
+    let response = api
       .provider
       .request(DribbbleAPI.shots(page: page, list: nil, timeframe: nil, date: nil, sort: nil))
       .mapJSONObjectArray(ShotModel.self, realm: self.realm)
     
-    self.handleResponse(res)
+    // prepare result
+    let result = self.handleResponse(response)
+      .do(onError: {[weak self] _ in
+        self?.page = page-1
+      })
       .observeOn(Schedulers.shared.backgroundWorkScheduler)
       .map({ shots -> [FeedCellModel] in
         return shots.map { $0.feedModel() }
-      }).map({ feedItems ->[FeedCellModel] in
-        return (page == 1) ? feedItems : self.originalItems.value + feedItems
       })
-      .observeOn(Schedulers.shared.mainScheduler)
-      .take(1)
-      .bindTo(self.originalItems)
-      .addDisposableTo(bag)
+    
+    // merge new result with exists data
+    Observable.combineLatest(result, self.originalItems.asObservable()) { new, exists in
+      return (page == 1) ? new : exists + new
     }
-
-//  func paginationRequest(currentPage: Int) {
-//   var page = currentPage
-//    
-//    self.refreshTrigger.map { _ in
-//      page = 1
-//    }.bindTo(self.performRequest)
-//    .addDisposableTo(self.bag)
-//    
-//    self.loadNextPageTrigger
-//      .bindTo(self.performRequest)
-//      .addDisposableTo(bag)
-//    
-//    let response = self.performRequest
-//      .flatMap {[weak self] _ -> Observable<[ShotModel]> in
-//        print("perform request with page: \(page)")
-//        
-//        return (self?.api.provider
-//          .request(DribbbleAPI.shots(page: page, list: nil, timeframe: nil, date: nil, sort: nil))
-//          .mapJSONObjectArray(ShotModel.self, realm: self?.realm))!
-//    }.shareReplay(1)
-//    
-//    Observable.combineLatest(response, self.shotItems.asObservable()) { new , exists in
-//        return (exists.count == 0 || page == 1) ? new : exists + new
-//      }
-//      .take(1)
-//      .bindTo(self.shotItems)
-//      .addDisposableTo(bag)
-//    
-//    response.catchError { (err) -> Observable<[ShotModel]> in
-//        return Observable.just([])
-//      }.subscribe(onNext: {[weak self] _ in
-//        self?.paginationRequest(currentPage: page+1)
-//      }).addDisposableTo(bag)
-//  }
+    .take(1)
+    .observeOn(Schedulers.shared.mainScheduler)
+    .bindTo(self.originalItems)
+    .disposed(by: bag)
+  }
 }
 

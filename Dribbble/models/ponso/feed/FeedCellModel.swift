@@ -8,13 +8,15 @@
 
 import Foundation
 
-struct FeedCellModel: ModelItemDatasourseble {
+struct FeedCellModel: ModelItemDatasourseble, Hashable, Equatable {
   var shotId: Int = 1
   var commnets = ""
   var views = ""
   var likes = ""
   var imagePath = ""
   var unic: String?
+  
+  var hashValue: Int { get { return shotId.hashValue } }
   
   init(shot: ShotModel) {
     commnets = " \(shot.comments)"
@@ -28,6 +30,10 @@ struct FeedCellModel: ModelItemDatasourseble {
       imagePath = shot.image!.teaser ?? ""
     }
     
-    unic = "\(shot.str_updated_at)\(shotId)"
+    unic = "\(shot.str_updated_at!)\(shotId)"
   }
+}
+
+func ==(left:FeedCellModel, right:FeedCellModel) -> Bool {
+  return left.hashValue == right.hashValue
 }

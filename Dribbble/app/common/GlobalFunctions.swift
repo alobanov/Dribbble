@@ -24,6 +24,15 @@ func delay(_ delay:Double, closure: @escaping ()->()) {
   }
 }
 
+func removeDuplicates<E: Hashable>(source: Array<E>) -> Array<E> {
+  var alreadyThere = Set<E>()
+  return source.flatMap { (post) -> E? in
+    guard !alreadyThere.contains(post) else { return nil }
+    alreadyThere.insert(post)
+    return post
+  }
+}
+
 func detectDevelopmentEnvironment() -> Bool {
   var developmentEnvironment = false
   #if DEBUG || (arch(i386) || arch(x86_64)) && os(iOS)

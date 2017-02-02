@@ -34,7 +34,7 @@ extension FeedViewController {
     let dataSource = RxCollectionViewSectionedAnimatedDataSource<ModelSection>()
     rxTableViewDataSource(dataSource)
     
-    viewModel.items
+    viewModel.datasourceItems
       .asObservable()
       .bindTo(self.collectionView.rx.items(dataSource: dataSource))
       .addDisposableTo(disposeBag)

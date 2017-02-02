@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ABW-qy-rCc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ABW-qy-rCc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,7 +13,7 @@
             <objects>
                 <navigationController storyboardIdentifier="tab2" id="sXq-Rf-aV4" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="Mx3-Pl-Y8A"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zRO-pS-rtY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="zRO-pS-rtY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -49,7 +49,7 @@
             <objects>
                 <navigationController storyboardIdentifier="tab1" id="yTc-qq-h5M" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="kCb-Eu-HKm"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nde-4j-ajZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Nde-4j-ajZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -74,7 +74,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bxb-WO-sz4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Usg-hq-3fp">
                                     <size key="itemSize" width="50" height="50"/>
@@ -84,30 +84,23 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPY-gH-7te">
-                                <rect key="frame" x="144" y="318" width="86" height="30"/>
-                                <state key="normal" title="TestRequest"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="bxb-WO-sz4" firstAttribute="leading" secondItem="Lkr-i9-7QN" secondAttribute="leading" id="396-Qa-QLl"/>
-                            <constraint firstItem="CPY-gH-7te" firstAttribute="centerY" secondItem="Lkr-i9-7QN" secondAttribute="centerY" id="3kq-GJ-9O7"/>
-                            <constraint firstItem="bxb-WO-sz4" firstAttribute="top" secondItem="Lkr-i9-7QN" secondAttribute="top" id="PlF-aw-TOR"/>
-                            <constraint firstItem="CPY-gH-7te" firstAttribute="centerX" secondItem="Lkr-i9-7QN" secondAttribute="centerX" id="Vod-ub-xGN"/>
+                            <constraint firstItem="bxb-WO-sz4" firstAttribute="top" secondItem="h7u-jj-MqU" secondAttribute="bottom" id="Tu3-WO-8qW"/>
+                            <constraint firstItem="jam-T8-BrV" firstAttribute="top" secondItem="bxb-WO-sz4" secondAttribute="bottom" id="o7K-Nm-u5Y"/>
                             <constraint firstAttribute="trailing" secondItem="bxb-WO-sz4" secondAttribute="trailing" id="s4j-O2-TRp"/>
-                            <constraint firstAttribute="bottom" secondItem="bxb-WO-sz4" secondAttribute="bottom" id="xOe-4z-eic"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="b0U-J0-2XR"/>
                     <connections>
                         <outlet property="collectionView" destination="bxb-WO-sz4" id="Zy1-qY-pgx"/>
-                        <outlet property="testRequest" destination="CPY-gH-7te" id="aA3-Da-ExL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pq0-cX-XNI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="997" y="-503"/>
+            <point key="canvasLocation" x="996" y="-503.29835082458777"/>
         </scene>
         <!--Root Tab Bar View Controller-->
         <scene sceneID="a8n-yo-uq7">

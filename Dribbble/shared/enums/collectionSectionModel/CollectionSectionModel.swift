@@ -58,14 +58,8 @@ struct ModelSectionItem {
 }
 
 extension ModelSectionItem: IdentifiableType, Equatable {
-  typealias Identity = String
-  
   var identity: String {
-    if let u = model.unic {
-      return u
-    } else {
-      return "undifined unic"
-    }
+    return model.unic ?? "undifined unic"
   }
 }
 

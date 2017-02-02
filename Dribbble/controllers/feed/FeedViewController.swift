@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Infinity
+import Kingfisher
 
 class FeedViewController: UIViewController, FeedInput {
   // MARK: properties IBOutlets
@@ -46,6 +48,7 @@ class FeedViewController: UIViewController, FeedInput {
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+    
   }
   
   // MARK: - Navigation
@@ -59,20 +62,45 @@ class FeedViewController: UIViewController, FeedInput {
   
   func configureRx() {
     guard let model = viewModel else { return }
-    model.confRx(signin: testRequest.rx.tap.asDriver())
+    model.confRx(signin: Driver.just())
     
     model.title.asObservable()
       .bindTo(self.rx.title)
-      .addDisposableTo(disposeBag)
+      .disposed(by: disposeBag)
     
-    self.collectionView.rx.reachedBottom
-      .bindTo(model.loadNextPageTrigger)
-      .addDisposableTo(disposeBag)
+    model.loadingState.subscribe(onNext: {[weak self] (state) in
+      switch state {
+      case .normal, .error, .empty:
+        delay(1, closure: { 
+          self?.collectionView.fty.infiniteScroll.end()
+          self?.collectionView.fty.pullToRefresh.end()
+        })
+        break
+      default: break
+        // nothing
+      }
+    }).disposed(by: disposeBag)
+    
+    model.displayError.subscribe(onNext: { err in
+      Popup.showNavError(err)
+    }).disposed(by: disposeBag)
+    
+    let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    collectionView.fty.pullToRefresh.add(animator: animator) { _ in
+      model.refreshTrigger.onNext()
+    }
+    
+    let animator2 = DefaultInfiniteAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+    collectionView.fty.infiniteScroll.add(animator: animator2) { _ in
+      model.loadNextPageTrigger.onNext()
+    }
+    
+    // refresh first page on start
+    model.refreshTrigger.onNext()
   }
   
   func configureUI() {
     self.title = "RxController"
-    
     
   }
   
@@ -87,6 +115,10 @@ class FeedViewController: UIViewController, FeedInput {
   
   deinit {
     print("FeedViewController dead")
+    
+    collectionView.fty.pullToRefresh.remove()
+    collectionView.fty.infiniteScroll.remove()
+    collectionView.fty.clear()
   }
 }
 

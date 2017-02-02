@@ -15,7 +15,7 @@ class Popup {
   private init() {}
   
   
-  func show(_ title: String, body: String) {
+  static func show(_ title: String, body: String) {
     let popup = MessageView.viewFromNib(layout: .CardView)
     popup.configureTheme(.error)
     
@@ -54,7 +54,7 @@ class Popup {
     SwiftMessages.hide()
   }
   
-  func showNavError(_ err: NSError) {
+  static func showNavError(_ err: NSError) {
     let popup = MessageView.viewFromNib(layout: .TabView)
     popup.configureTheme(.error)
     

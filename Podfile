@@ -30,6 +30,7 @@ plugin 'cocoapods-keys', {
     pod 'CryptoSwift'
     pod 'Kingfisher'
     pod 'Font-Awesome-Swift'
+    pod 'Infinity'
     
     # Helpers
     pod 'SwiftyUserDefaults'
