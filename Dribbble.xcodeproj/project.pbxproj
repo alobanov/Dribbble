@@ -41,7 +41,6 @@
 		E82D70151E2F603500A1F7AA /* FeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D70111E2F603500A1F7AA /* FeedRouter.swift */; };
 		E82D70161E2F603500A1F7AA /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D70121E2F603500A1F7AA /* FeedViewController.swift */; };
 		E82D70171E2F603500A1F7AA /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D70131E2F603500A1F7AA /* FeedViewModel.swift */; };
-		E82D70191E2F62FC00A1F7AA /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D70181E2F62FC00A1F7AA /* NetworkHelper.swift */; };
 		E82D701B1E2F631500A1F7AA /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D701A1E2F631500A1F7AA /* Networking.swift */; };
 		E82D701D1E2F632700A1F7AA /* DribbbleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D701C1E2F632700A1F7AA /* DribbbleAPI.swift */; };
 		E82D70201E2F66F600A1F7AA /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D701F1E2F66F600A1F7AA /* GlobalFunctions.swift */; };
@@ -72,8 +71,6 @@
 		E89A790F1E325AFE0074FDF8 /* SettingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */; };
 		E89A79111E337EFE0074FDF8 /* AppSettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79101E337EFE0074FDF8 /* AppSettingsStorage.swift */; };
 		E89D7C161E43014200A9B4D9 /* FeedCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89D7C151E43014200A9B4D9 /* FeedCellModel.swift */; };
-		E89D7C1A1E434EAE00A9B4D9 /* Diff+NSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89D7C181E434EAE00A9B4D9 /* Diff+NSString.swift */; };
-		E89D7C1B1E434EAE00A9B4D9 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89D7C191E434EAE00A9B4D9 /* Diff.swift */; };
 		E8E5F4961E3F3F6B005D7EE4 /* FeedNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E5F4951E3F3F6B005D7EE4 /* FeedNetworkService.swift */; };
 		E8EA48311E3CC32200FF902D /* UIScrollView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA48301E3CC32200FF902D /* UIScrollView+Rx.swift */; };
 /* End PBXBuildFile section */
@@ -128,7 +125,6 @@
 		E82D70111E2F603500A1F7AA /* FeedRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRouter.swift; sourceTree = "<group>"; };
 		E82D70121E2F603500A1F7AA /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		E82D70131E2F603500A1F7AA /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		E82D70181E2F62FC00A1F7AA /* NetworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		E82D701A1E2F631500A1F7AA /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		E82D701C1E2F632700A1F7AA /* DribbbleAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DribbbleAPI.swift; sourceTree = "<group>"; };
 		E82D701F1E2F66F600A1F7AA /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
@@ -158,8 +154,6 @@
 		E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingStorage.swift; sourceTree = "<group>"; };
 		E89A79101E337EFE0074FDF8 /* AppSettingsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsStorage.swift; sourceTree = "<group>"; };
 		E89D7C151E43014200A9B4D9 /* FeedCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCellModel.swift; sourceTree = "<group>"; };
-		E89D7C181E434EAE00A9B4D9 /* Diff+NSString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diff+NSString.swift"; sourceTree = "<group>"; };
-		E89D7C191E434EAE00A9B4D9 /* Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		E8E5F4951E3F3F6B005D7EE4 /* FeedNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNetworkService.swift; sourceTree = "<group>"; };
 		E8EA48301E3CC32200FF902D /* UIScrollView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Rx.swift"; sourceTree = "<group>"; };
 		FE1EDBE5D9A1C18FA5891CDD /* Pods-DribbbleCommon-Dribbble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleCommon-Dribbble.release.xcconfig"; path = "Pods/Target Support Files/Pods-DribbbleCommon-Dribbble/Pods-DribbbleCommon-Dribbble.release.xcconfig"; sourceTree = "<group>"; };
@@ -244,7 +238,6 @@
 		E82D6F8B1E2E601300A1F7AA /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E89D7C171E434EAE00A9B4D9 /* Diff */,
 				E82D6F9F1E2F437F00A1F7AA /* FileReader */,
 				E82D6FA11E2F437F00A1F7AA /* JSONReader */,
 				E82D6FA31E2F437F00A1F7AA /* RxModel */,
@@ -296,7 +289,6 @@
 			children = (
 				E82D70211E2F676200A1F7AA /* plugin */,
 				E82D6F9D1E2F42B300A1F7AA /* DribbbleAppToken.swift */,
-				E82D70181E2F62FC00A1F7AA /* NetworkHelper.swift */,
 				E82D701A1E2F631500A1F7AA /* Networking.swift */,
 				E82D701C1E2F632700A1F7AA /* DribbbleAPI.swift */,
 			);
@@ -656,15 +648,6 @@
 			path = feed;
 			sourceTree = "<group>";
 		};
-		E89D7C171E434EAE00A9B4D9 /* Diff */ = {
-			isa = PBXGroup;
-			children = (
-				E89D7C181E434EAE00A9B4D9 /* Diff+NSString.swift */,
-				E89D7C191E434EAE00A9B4D9 /* Diff.swift */,
-			);
-			path = Diff;
-			sourceTree = "<group>";
-		};
 		E8E5F4941E3F3F4D005D7EE4 /* feedPagination */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,7 +872,6 @@
 				E82D703F1E2F922C00A1F7AA /* CollectionSectionModel.swift in Sources */,
 				E82D70251E2F67B200A1F7AA /* Popup.swift in Sources */,
 				E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */,
-				E89D7C1B1E434EAE00A9B4D9 /* Diff.swift in Sources */,
 				E82D701D1E2F632700A1F7AA /* DribbbleAPI.swift in Sources */,
 				E82D70071E2F4B9C00A1F7AA /* Observable+GreatMapper.swift in Sources */,
 				E82D70001E2F4B9C00A1F7AA /* TableView+ReusableView.swift in Sources */,
@@ -901,7 +883,6 @@
 				E82D70151E2F603500A1F7AA /* FeedRouter.swift in Sources */,
 				E82D700B1E2F4B9C00A1F7AA /* UIViewController+StoryboardIdentifier.swift in Sources */,
 				E82D701B1E2F631500A1F7AA /* Networking.swift in Sources */,
-				E89D7C1A1E434EAE00A9B4D9 /* Diff+NSString.swift in Sources */,
 				E82D702B1E2F739500A1F7AA /* DBManager.swift in Sources */,
 				E82D6FCE1E2F486F00A1F7AA /* ObjectMappable.swift in Sources */,
 				E82D700A1E2F4B9C00A1F7AA /* UIStoryboard+Storyboards.swift in Sources */,
@@ -923,7 +904,6 @@
 				E82D6FFF1E2F4B9C00A1F7AA /* CellIdentifiable.swift in Sources */,
 				E82D70051E2F4B9C00A1F7AA /* UIViewController+Navigation.swift in Sources */,
 				E82D70161E2F603500A1F7AA /* FeedViewController.swift in Sources */,
-				E82D70191E2F62FC00A1F7AA /* NetworkHelper.swift in Sources */,
 				E82D6FA51E2F437F00A1F7AA /* FileReader.swift in Sources */,
 				E82D6FFE1E2F4B9C00A1F7AA /* UIAlertController+Additional.swift in Sources */,
 				E82D70081E2F4B9C00A1F7AA /* Observable+Operators.swift in Sources */,

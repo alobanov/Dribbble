@@ -49,7 +49,7 @@ class FeedModelSpec: QuickSpec {
         
         let btn = UIButton()
         let btnDriver = btn.rx.tap.asDriver()
-        self.modelPublic.confRx(signin: btnDriver)
+        self.modelPublic.confRx(changeLayoutTap: btnDriver)
         btn.sendActions(for: .touchUpInside)
       }
       

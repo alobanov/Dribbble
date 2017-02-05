@@ -7,7 +7,7 @@ private let reachabilityManager = ReachabilityManager()
 // An observable that completes when the app gets online (possibly completes immediately).
 func connectedToInternetOrStubbing() -> Observable<Bool> {
   let online = reachabilityManager.reach
-  //    let stubbing = Observable.just(true)
+//      let stubbing = Observable.just(true)
   
   return online
 }
@@ -73,13 +73,6 @@ private class ReachabilityManager: NSObject {
       print("Unable to start notifier")
     }
     _reach.onNext(reachability!.isReachable)
-  }
-}
-
-// Applies an instance method to the instance with an unowned reference.
-func applyUnowned<Type: AnyObject, Parameters, ReturnValue>(_ instance: Type, _ function: @escaping ((Type) -> (Parameters) -> ReturnValue)) -> ((Parameters) -> ReturnValue) {
-  return { [unowned instance] parameters -> ReturnValue in
-    return function(instance)(parameters)
   }
 }
 
