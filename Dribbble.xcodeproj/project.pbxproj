@@ -65,6 +65,7 @@
 		E8376DE81E2FCC7600F2F2B9 /* ObjectsEmptyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */; };
 		E86CD8601E471E8A00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
 		E86CD8611E471E8E00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
+		E86CD8661E47726F00A8F4FC /* FeedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CD8651E47726F00A8F4FC /* FeedEnums.swift */; };
 		E89A79061E31FC510074FDF8 /* FeedModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */; };
 		E89A790A1E322EE80074FDF8 /* Feed.json in Resources */ = {isa = PBXBuildFile; fileRef = E8376DD91E2FC6C500F2F2B9 /* Feed.json */; };
 		E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790B1E3259970074FDF8 /* Realm+Extension.swift */; };
@@ -151,6 +152,7 @@
 		E8376DDC1E2FC6FB00F2F2B9 /* NetworkMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMock.swift; sourceTree = "<group>"; };
 		E8376DDF1E2FCA6A00F2F2B9 /* FeedNetSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNetSpec.swift; sourceTree = "<group>"; };
 		E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FeedPage2.json; sourceTree = "<group>"; };
+		E86CD8651E47726F00A8F4FC /* FeedEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedEnums.swift; sourceTree = "<group>"; };
 		E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModelSpec.swift; sourceTree = "<group>"; };
 		E89A790B1E3259970074FDF8 /* Realm+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extension.swift"; sourceTree = "<group>"; };
 		E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingStorage.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 		E82D700F1E2F601000A1F7AA /* feed */ = {
 			isa = PBXGroup;
 			children = (
+				E86CD8621E47724600A8F4FC /* enum */,
 				E82D703A1E2F8F3600A1F7AA /* extension */,
 				E82D70101E2F603500A1F7AA /* FeedConfigurator.swift */,
 				E82D70111E2F603500A1F7AA /* FeedRouter.swift */,
@@ -603,6 +606,14 @@
 				E8376DDF1E2FCA6A00F2F2B9 /* FeedNetSpec.swift */,
 			);
 			path = network;
+			sourceTree = "<group>";
+		};
+		E86CD8621E47724600A8F4FC /* enum */ = {
+			isa = PBXGroup;
+			children = (
+				E86CD8651E47726F00A8F4FC /* FeedEnums.swift */,
+			);
+			path = enum;
 			sourceTree = "<group>";
 		};
 		E89A79031E31FC3E0074FDF8 /* controllers */ = {
@@ -901,6 +912,7 @@
 				E82D70021E2F4B9C00A1F7AA /* Ext+Common.swift in Sources */,
 				E82D6F9E1E2F42B300A1F7AA /* DribbbleAppToken.swift in Sources */,
 				E82D70381E2F8EC300A1F7AA /* ShotSmallCell.swift in Sources */,
+				E86CD8661E47726F00A8F4FC /* FeedEnums.swift in Sources */,
 				E82D70291E2F721000A1F7AA /* RxSchedulers.swift in Sources */,
 				E82D6FE21E2F49BE00A1F7AA /* ErrorManager.swift in Sources */,
 				E8EA48311E3CC32200FF902D /* UIScrollView+Rx.swift in Sources */,

@@ -9,27 +9,12 @@
 import Foundation
 import RxDataSources
 
-// Collection view structure
-enum CurrentLayout: Int {
-  case small
-  case medium
-  case large
-  case count
-}
-
-enum FeedConstants: CGFloat {
-  case topFilterHideOffset = -460
-  case topFilterShowOffset = -30
-  case spacingDefault = 5.0
-}
-
 // Collection view RxDataSource
 extension FeedViewController {
   func confRxCollectionView() {
     guard let viewModel = self.viewModel else { return }
     
     collectionView.registerCell(by: ShotSmallCell.cellIdentifier)
-    collectionView.setCollectionViewLayout(self.createLayout(self.currentLayout), animated: true)
     
     let dataSource = RxCollectionViewSectionedAnimatedDataSource<ModelSection>()
     rxTableViewDataSource(dataSource)
@@ -37,10 +22,10 @@ extension FeedViewController {
     viewModel.datasourceItems
       .asObservable()
       .bindTo(self.collectionView.rx.items(dataSource: dataSource))
-      .addDisposableTo(disposeBag)
+      .addDisposableTo(bag)
     
     collectionView.rx.setDelegate(self)
-      .addDisposableTo(disposeBag)
+      .addDisposableTo(bag)
     
     self.dataSource = dataSource
   }
@@ -65,7 +50,7 @@ extension FeedViewController {
     collectionView.rx.modelSelected(ModelSectionItem.self)
       .subscribe(onNext: {[weak self] model in
         self?.tableSelectWithModel(model: model)
-      }).addDisposableTo(disposeBag)
+      }).addDisposableTo(bag)
   }
   
   // MARK: Table cell action
@@ -77,36 +62,6 @@ extension FeedViewController {
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension FeedViewController : UICollectionViewDelegateFlowLayout {
-  
-  func updateLayout() {
-    self.currentLayout = self.nextLayoutType()
-    let layout = createLayout(self.currentLayout)
-//    self.updateLayoutIcon()
-    self.collectionView?.setCollectionViewLayout(layout, animated: true)
-  }
-  
-//  func updateLayoutIcon() {
-//    let icon: FAType!
-//    switch self.currentLayout {
-//    case .small:
-//      icon = FAType.FAThLarge
-//    case .medium:
-//      icon = FAType.FASquare
-//    default:
-//      icon = FAType.FATh
-//    }
-//    
-//    self.rightNavButton.FAIcon = icon
-//  }
-  
-  func nextLayoutType() -> CurrentLayout {
-    let nextType = 0
-    if self.currentLayout.rawValue + 1 == CurrentLayout.count.rawValue {
-      return CurrentLayout(rawValue: nextType)!
-    }
-    
-    return CurrentLayout(rawValue: self.currentLayout.rawValue + 1)!
-  }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -132,7 +87,7 @@ extension FeedViewController : UICollectionViewDelegateFlowLayout {
   func getSizeForLayout(_ type: CurrentLayout) -> CGSize {
     let screenWidth = UIScreen.main.bounds.width
     var width: CGFloat = 0.0
-    let heightStatisticOffset: CGFloat = 20.0
+    let heightStatisticOffset: CGFloat = FeedConstants.heightStatisticOffset.rawValue
     let spacing = FeedConstants.spacingDefault.rawValue
     
     switch type {

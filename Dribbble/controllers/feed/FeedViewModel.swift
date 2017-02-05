@@ -30,13 +30,14 @@ protocol FeedOutput: RxModelOutput {
   var router: FeedRouterInput! {get}
   
   // initialization rx.cocoa
-  func confRx(signin: Driver<Void>)
+  func confRx(changeLayoutTap: Driver<Void>)
   
   // observable
   var title: Variable<String> {get}
   var datasourceItems: Variable<[ModelSection]> {get}
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
+  var currentLayout: Variable<CurrentLayout> {get}
 }
 
 protocol FeedInput: class {
@@ -58,6 +59,7 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   var datasourceItems = Variable<[ModelSection]>([])
   var loadNextPageTrigger = PublishSubject<Void>()
   var refreshTrigger = PublishSubject<Void>()
+  var currentLayout = Variable<CurrentLayout>(.medium)
   
   // Private
   fileprivate var originalItems = Variable<[FeedCellModel]>([])
@@ -83,11 +85,11 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   
   // Output
   
-  func confRx(signin: Driver<Void>) {
+  func confRx(changeLayoutTap: Driver<Void>) {
     
-//    signin.drive(onNext: {
-//      self.obtainShots(by: 1)
-//    }).disposed(by: bag)
+    changeLayoutTap.throttle(1).drive(onNext: {
+        self.currentLayout.value = self.currentLayout.value.nextLayoutType()
+    }).disposed(by: bag)
     
     // Get first page from cache
     self.datasourceItems

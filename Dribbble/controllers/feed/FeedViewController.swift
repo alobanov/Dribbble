@@ -12,11 +12,13 @@ import RxCocoa
 import RxDataSources
 import Infinity
 import Kingfisher
+import Font_Awesome_Swift
 
 class FeedViewController: UIViewController, FeedInput {
   // MARK: properties IBOutlets
   @IBOutlet weak var testRequest: UIButton!
   @IBOutlet weak var collectionView: UICollectionView!
+  var rightNavButton: UIBarButtonItem!
   
   // MARK: - Properties
   // dependencies
@@ -24,8 +26,7 @@ class FeedViewController: UIViewController, FeedInput {
   var dataSource: RxCollectionViewSectionedAnimatedDataSource<ModelSection>?
   
   // Private    
-  var disposeBag: DisposeBag = DisposeBag()
-  var currentLayout: CurrentLayout = CurrentLayout.medium
+  var bag: DisposeBag = DisposeBag()
   
   // MARK: Life Cycle
   
@@ -62,11 +63,11 @@ class FeedViewController: UIViewController, FeedInput {
   
   func configureRx() {
     guard let model = viewModel else { return }
-    model.confRx(signin: Driver.just())
+    model.confRx(changeLayoutTap: self.rightNavButton.rx.tap.asDriver())
     
     model.title.asObservable()
       .bindTo(self.rx.title)
-      .disposed(by: disposeBag)
+      .disposed(by: bag)
     
     model.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
@@ -79,11 +80,11 @@ class FeedViewController: UIViewController, FeedInput {
       default: break
         // nothing
       }
-    }).disposed(by: disposeBag)
+    }).disposed(by: bag)
     
     model.displayError.subscribe(onNext: { err in
       Popup.showNavError(err)
-    }).disposed(by: disposeBag)
+    }).disposed(by: bag)
     
     let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     collectionView.fty.pullToRefresh.add(animator: animator) { _ in
@@ -95,6 +96,10 @@ class FeedViewController: UIViewController, FeedInput {
       model.loadNextPageTrigger.onNext()
     }
     
+    model.currentLayout.asObservable().subscribe(onNext: { layout in
+        self.updateLayout(layout: layout)
+    }).disposed(by: bag)
+    
     // refresh first page on start
     model.refreshTrigger.onNext()
   }
@@ -102,16 +107,18 @@ class FeedViewController: UIViewController, FeedInput {
   func configureUI() {
     self.title = "RxController"
     
+    self.rightNavButton = UIBarButtonItem(image: nil, style: UIBarButtonItemStyle.done, target: nil, action: nil)
+    self.navigationItem.rightBarButtonItem = self.rightNavButton
   }
   
   // MARK: - Action
   
-  // MARK: - FeedInput
-//  func show(error: NSError) {
-//    
-//  }
-  
   // MARK: - Additional
+  
+  func updateLayout(layout: CurrentLayout) {
+    self.rightNavButton.FAIcon = layout.icon
+    self.collectionView?.setCollectionViewLayout(createLayout(layout), animated: true)
+  }
   
   deinit {
     print("FeedViewController dead")
