@@ -74,8 +74,12 @@ extension DribbbleAPI : TargetType {
   
   var sampleData: Data {
     switch self {
-    case .shots:
-      return JSONReader.readJSONData("Feed")
+    case .shots(let page, _, _, _, _):
+      if page == 1 {
+        return JSONReader.readJSONData("Feed")
+      }
+      
+      return JSONReader.readJSONData("FeedPage2")
     }
   }
   
