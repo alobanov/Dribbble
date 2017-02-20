@@ -1,32 +1,27 @@
 //
-//  FeedRouter.swift
+//  ShotRouter.swift
 //  Dribbble
 //
-//  Created by Lobanov Aleksey on 18.01.17.
+//  Created by Lobanov Aleksey on 11.02.17.
 //  Copyright (c) 2017 Lobanov Aleksey. All rights reserved.
 //
 
 import UIKit
 
-protocol FeedRouterInput
+protocol ShotRouterInput
 {
   func passDataToNextScene(segue: UIStoryboardSegue)
-  func navigateToShot(byId: Int)
+  func navigateTo()
 }
 
-
-class FeedRouter: FeedRouterInput
+class ShotRouter: ShotRouterInput
 {
-  weak var viewController: FeedViewController!
+  weak var viewController: ShotViewController!
   
   // MARK: Navigation
   
-  func navigateToShot(byId: Int) {
+  func navigateTo() {
     // navigate here
-    let shot: ShotViewController = UIStoryboard(storyboard: .main).instantiateViewController()
-    ShotConfigurator.configure(viewController: shot, shotID: byId)
-    
-    viewController.navigationController?.pushViewController(shot, animated: true)
   }
   
   // MARK: Communication
@@ -41,5 +36,9 @@ class FeedRouter: FeedRouterInput
   func passDataToProfile(segue: UIStoryboardSegue) {
 //    let vc = segue.destination as! ViewController
 //    Configurator.configure(viewController: vc)
+  }
+  
+  deinit {
+    print("-- ShotRouter dead")
   }
 }

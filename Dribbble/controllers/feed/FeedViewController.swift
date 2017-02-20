@@ -16,7 +16,6 @@ import Font_Awesome_Swift
 
 class FeedViewController: UIViewController, FeedInput {
   // MARK: properties IBOutlets
-  @IBOutlet weak var testRequest: UIButton!
   @IBOutlet weak var collectionView: UICollectionView!
   var rightNavButton: UIBarButtonItem!
   

@@ -37,7 +37,7 @@ protocol FeedOutput: RxModelOutput {
   var datasourceItems: Variable<[ModelSection]> {get}
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
-  var currentLayout: Variable<CurrentLayout> {get}
+  var currentLayout: Variable<CurrentLayout> {get} // TODO: Implement tests!
 }
 
 protocol FeedInput: class {
@@ -120,12 +120,14 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
     
     // refresh first page
     self.refreshTrigger
+      .filter { !self.isRequestInProcess() }
       .subscribe(onNext: {
         self.obtainFirstPage()
       }).disposed(by: bag)
     
     // laod next page of shots
     self.loadNextPageTrigger
+      .filter { !self.isRequestInProcess() }
       .subscribe(onNext: {
         self.obtainNextPage()
       }).disposed(by: bag)
@@ -175,7 +177,7 @@ extension FeedViewModel {
   ///
   /// - Parameter by: [FeedCellModel]
   func saveFirstPage(by: [FeedCellModel]) {
-    let ids = by.map { $0.shotId }
+    let ids = by.map { $0.uid }
     self.appSettings?.feedFirstPage = ids
   }
 }
@@ -194,9 +196,6 @@ extension FeedViewModel {
   }
   
   func obtainShots(by page: Int) {
-    if isRequestInProcess() {
-      return
-    }
     
     let response = api
       .provider

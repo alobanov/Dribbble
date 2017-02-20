@@ -49,7 +49,12 @@ extension FeedViewController {
     
     collectionView.rx.modelSelected(ModelSectionItem.self)
       .subscribe(onNext: {[weak self] model in
-        self?.tableSelectWithModel(model: model)
+        
+        guard let m: FeedCellModel = model.model as? FeedCellModel else {
+          return;
+        }
+        
+        self?.viewModel?.router.navigateToShot(byId: m.uid)
       }).addDisposableTo(bag)
   }
   

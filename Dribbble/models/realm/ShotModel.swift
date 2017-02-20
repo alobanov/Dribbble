@@ -13,7 +13,7 @@ struct ShotSize {
   static var height: CGFloat = 300
 }
 
-class ShotModel: ObjectMappable, ModelItemDatasourseble {
+class ShotModel: ObjectMappable {
   dynamic var shotId = 0
   dynamic var animated: Bool = false
   dynamic var width: CGFloat = 0

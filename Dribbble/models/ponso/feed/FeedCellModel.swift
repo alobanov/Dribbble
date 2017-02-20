@@ -8,20 +8,18 @@
 
 import Foundation
 
-struct FeedCellModel: ModelItemDatasourseble, Hashable, Equatable {
-  var shotId: Int = 1
+struct FeedCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
+  var uid: Int = 1
   var commnets = ""
   var views = ""
   var likes = ""
   var imagePath = ""
   var unic: String?
   
-  var hashValue: Int { get { return shotId.hashValue } }
-  
   init(shot: ShotModel) {
     commnets = " \(shot.comments)"
     likes = " \(shot.likes)"
-    shotId = shot.shotId
+    uid = shot.shotId
     views = " \(shot.views)"
     
     if !shot.animated {
@@ -30,10 +28,6 @@ struct FeedCellModel: ModelItemDatasourseble, Hashable, Equatable {
       imagePath = shot.image!.teaser ?? ""
     }
     
-    unic = "\(shot.str_updated_at!)\(shotId)"
+    unic = "\(shot.str_updated_at!)\(uid)"
   }
-}
-
-func ==(left:FeedCellModel, right:FeedCellModel) -> Bool {
-  return left.hashValue == right.hashValue
 }

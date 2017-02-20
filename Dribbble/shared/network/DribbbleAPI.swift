@@ -22,6 +22,11 @@ enum DribbbleAPI {
   // Shots http://developer.dribbble.com/v1/shots/
   //
   case shots(page: Int, list: String?, timeframe: String?, date: Date?, sort: String?)
+  
+  //
+  // Shot comments http://developer.dribbble.com/v1/shots/471756/comments
+  //
+  case shotComments(shotID: Int, page: Int, perPage: Int)
 }
 
 extension DribbbleAPI : TargetType {
@@ -46,12 +51,15 @@ extension DribbbleAPI : TargetType {
     switch self {
     case .shots(_, _, _, _, _):
       return "shots"
+      
+    case .shotComments(let shotID, _, _):
+      return "shots/\(shotID)/comments"
     }
   }
   
   var method: Moya.Method {
     switch self {
-    case .shots:
+    case .shots, .shotComments:
       return HTTPMethod.get
     }
   }
@@ -67,8 +75,14 @@ extension DribbbleAPI : TargetType {
       if let d = date {shotsPrm["date"] = d as AnyObject?}
       if let s = sort {shotsPrm["sort"] = s as AnyObject?}
       print(shotsPrm)
-      
       return shotsPrm
+      
+    case .shotComments(_, let page, let perPage):
+      var commentPrm = [String: Int]()
+      commentPrm["page"] = page
+      commentPrm["per_page"] = perPage
+      return commentPrm
+      
     }
   }
   
@@ -77,9 +91,11 @@ extension DribbbleAPI : TargetType {
     case .shots(let page, _, _, _, _):
       if page == 1 {
         return JSONReader.readJSONData("Feed")
+      } else {
+        return JSONReader.readJSONData("FeedPage2")
       }
-      
-      return JSONReader.readJSONData("FeedPage2")
+    case .shotComments:
+      return JSONReader.readJSONData("Comment")
     }
   }
   
