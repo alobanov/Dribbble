@@ -87,16 +87,14 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   
   func confRx(changeLayoutTap: Driver<Void>) {
     
-    changeLayoutTap.throttle(1).drive(onNext: {
-        self.currentLayout.value = self.currentLayout.value.nextLayoutType()
-    }).disposed(by: bag)
-    
     // Get first page from cache
     self.datasourceItems
       .asObservable()
       .take(1).filter{ $0.count == 0 }
-      .map({ _ -> [FeedCellModel] in self.prepareFirstPageFromCache() })
-      .bindTo(self.originalItems)
+      .map({[weak self] _ -> [FeedCellModel] in
+        self?.prepareFirstPageFromCache() ?? []
+      })
+      .bindTo(originalItems)
       .addDisposableTo(bag)
     
     // binding to datasource
@@ -107,15 +105,15 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
         return removeDuplicates(source: items)
       })
       // prepare for RxDatasource
-      .map({ l -> [ModelSection] in
-        if self.page == 1 {
-          self.saveFirstPage(by: l)
+      .map({[weak self] l -> [ModelSection] in
+        if self?.page == 1 {
+          self?.saveFirstPage(by: l)
         }
         
-        return self.prepareForDatasource(list: l)
+        return self?.prepareForDatasource(list: l) ?? []
       })
       .observeOn(Schedulers.shared.mainScheduler)
-      .bindTo(self.datasourceItems)
+      .bindTo(datasourceItems)
       .disposed(by: bag)
     
     // refresh first page
@@ -131,6 +129,10 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
       .subscribe(onNext: {
         self.obtainNextPage()
       }).disposed(by: bag)
+    
+    changeLayoutTap.throttle(1).drive(onNext: {
+      self.currentLayout.value = self.currentLayout.value.nextLayoutType()
+    }).addDisposableTo(self.bag)
   }
   
   // MARK: - Additional

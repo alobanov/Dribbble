@@ -15,7 +15,7 @@ protocol RxModelOutput {
 }
 
 class RxViewModel {
-  let bag = DisposeBag()
+  let bag: DisposeBag!
   
   var displayError: Observable<NSError> {
     return _displayError.asObservable().skip(1)
@@ -29,7 +29,7 @@ class RxViewModel {
   internal var _displayError = Variable<NSError>(NSError(domain: "", code: 0, userInfo: nil))
   
   init() {
-    
+    bag = DisposeBag()
   }
   
   func isRequestInProcess() -> Bool {

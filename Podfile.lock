@@ -4,7 +4,7 @@ PODS:
   - Font-Awesome-Swift (1.6.1)
   - Infinity (3.0.2)
   - Keys (1.0.0)
-  - Kingfisher (3.4.0)
+  - Kingfisher (3.5.0)
   - Moya/Core (8.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -17,11 +17,11 @@ PODS:
   - PopupDialog (0.5.3)
   - Quick (1.1.0)
   - ReachabilitySwift (3)
-  - Realm (2.4.2):
-    - Realm/Headers (= 2.4.2)
-  - Realm/Headers (2.4.2)
-  - RealmSwift (2.4.2):
-    - Realm (= 2.4.2)
+  - Realm (2.4.3):
+    - Realm/Headers (= 2.4.3)
+  - Realm/Headers (2.4.3)
+  - RealmSwift (2.4.3):
+    - Realm (= 2.4.3)
   - Result (3.1.0)
   - RxBlocking (3.2.0):
     - RxSwift (~> 3.1)
@@ -69,7 +69,7 @@ SPEC CHECKSUMS:
   Font-Awesome-Swift: 70ab020f6749d7048bb49807c3e78b702d78afca
   Infinity: 58f5c6d0dac4976d021c11897bd0a122f55e22f3
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
-  Kingfisher: 5690cfb3d1bddf3a98d679a3a34d0b7294974ed2
+  Kingfisher: 7c62087039d93d26c54c8dd9b0b588d2ce55cef6
   Moya: 47f61da5b634aa71f676431b64ee0f81e976296d
   Nimble: 1527fd1bd2b4cf0636251a36bc8ab37e81da8347
   OAuthSwift: 7ec2c62274f6bdc30b1ba3b799c39a6fdcaea0e5
@@ -77,8 +77,8 @@ SPEC CHECKSUMS:
   PopupDialog: 533dd564f8781633375505b9fbd406f8f146ccc9
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
-  RealmSwift: 9556c0fe0f0cfecacfb755ae9e68ff379fc6bead
+  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
+  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
   Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
   RxBlocking: ec8ed471ba77b4fb98a2d60f1f8419b0b46eaa23
   RxCocoa: ccdf43101a70407097a29082f648ba1676075b30

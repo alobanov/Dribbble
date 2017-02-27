@@ -23,11 +23,6 @@ extension FeedViewController {
       .asObservable()
       .bindTo(self.collectionView.rx.items(dataSource: dataSource))
       .addDisposableTo(bag)
-    
-    collectionView.rx.setDelegate(self)
-      .addDisposableTo(bag)
-    
-    self.dataSource = dataSource
   }
   
   // MARK: Configurate Rx DataSource
@@ -49,19 +44,18 @@ extension FeedViewController {
     
     collectionView.rx.modelSelected(ModelSectionItem.self)
       .subscribe(onNext: {[weak self] model in
-        
-        guard let m: FeedCellModel = model.model as? FeedCellModel else {
-          return;
-        }
-        
-        self?.viewModel?.router.navigateToShot(byId: m.uid)
+        self?.tableSelectWithModel(model: model)
       }).addDisposableTo(bag)
   }
   
   // MARK: Table cell action
   
   func tableSelectWithModel(model: ModelSectionItem) {
-    print(model)
+    guard let m: FeedCellModel = model.model as? FeedCellModel else {
+      return;
+    }
+    
+    self.viewModel?.router.navigateToShot(byId: m.uid)
   }
 }
 

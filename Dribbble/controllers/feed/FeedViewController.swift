@@ -22,10 +22,10 @@ class FeedViewController: UIViewController, FeedInput {
   // MARK: - Properties
   // dependencies
   var viewModel: FeedOutput?
-  var dataSource: RxCollectionViewSectionedAnimatedDataSource<ModelSection>?
+//  var dataSource: RxCollectionViewSectionedAnimatedDataSource<ModelSection>!
   
   // Private    
-  var bag: DisposeBag = DisposeBag()
+  var bag: DisposeBag! = DisposeBag()
   
   // MARK: Life Cycle
   
@@ -95,8 +95,8 @@ class FeedViewController: UIViewController, FeedInput {
       model.loadNextPageTrigger.onNext()
     }
     
-    model.currentLayout.asObservable().subscribe(onNext: { layout in
-        self.updateLayout(layout: layout)
+    model.currentLayout.asObservable().subscribe(onNext: {[weak self] layout in
+        self?.updateLayout(layout: layout)
     }).disposed(by: bag)
     
     // refresh first page on start
@@ -121,7 +121,7 @@ class FeedViewController: UIViewController, FeedInput {
   
   deinit {
     print("FeedViewController dead")
-    
+
     collectionView.fty.pullToRefresh.remove()
     collectionView.fty.infiniteScroll.remove()
     collectionView.fty.clear()

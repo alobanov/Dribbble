@@ -12,6 +12,7 @@ import UIKit.UIFont
 struct CommentCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
   var uid: Int = 1
   var text = ""
+  var textHTML = ""
   var likes = ""
   var avatarPath = ""
   var date = ""
@@ -19,7 +20,8 @@ struct CommentCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
   
   init(comment: ShotCommentModel) {
     if let t = comment.body {
-        text = t.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+      text = t.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil).replacingOccurrences(of: "\n", with: "")
+      textHTML = t.deleteHTMLTags(tags: ["p", "br"])
     }
     
     likes = " \(comment.likes_count)"

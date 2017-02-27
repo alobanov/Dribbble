@@ -26,8 +26,7 @@ extension ShotViewController {
       .bindTo(tableView.rx.items(dataSource: dataSource))
       .addDisposableTo(bag)
     
-    tableView.rx.setDelegate(self)
-      .addDisposableTo(bag)
+    tableView.rx.setDelegate(self).addDisposableTo(bag);
     
     self.dataSource = dataSource
   }

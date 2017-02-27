@@ -14,7 +14,11 @@ import Alamofire
 // MARK: - Network setitngs
 
 struct Configuration {
-  static let customManager: Manager = {
+  static var shared = Configuration()
+  
+  init() {}
+  
+  lazy var customManager: Manager = {
     let serverTrustPolicies: [String: ServerTrustPolicy] = [
       "ge.Dribbble.ccBeta": .pinCertificates(
         certificates: ServerTrustPolicy.certificates(),
@@ -29,7 +33,9 @@ struct Configuration {
     return m
   }()
   
-  static let defaultManager: Manager = Manager.default
+  lazy var defaultManager: Manager = {
+    return Manager.default
+  }()
 }
 
 // MARK: - Online provider base
@@ -83,8 +89,7 @@ extension NetworkingType {
   static func debugNetworking() -> Networking {
     return Networking(provider: OnlineProvider(endpointClosure: endpointsClosure,
                                                requestClosure: endpointResolver(),
-                                               manager: Configuration.defaultManager,
-                                               plugins: [NetworkLoggerPlugin(verbose: false)]))
+                                               plugins: [])) //[NetworkLoggerPlugin(verbose: false)]
   }
   
   static func mockNetworking() -> Networking {
@@ -92,7 +97,7 @@ extension NetworkingType {
   }
   
   static func prodNetworking() -> Networking {
-    return Networking(provider: OnlineProvider(manager: Configuration.defaultManager, plugins: []))
+    return Networking(provider: OnlineProvider(manager: Configuration.shared.defaultManager, plugins: []))
   }
   
   /**
@@ -117,13 +122,11 @@ extension NetworkingType {
    */
   static func endpointResolver<T>() -> MoyaProvider<T>.RequestClosure where T: TargetType {
     return { (endpoint, closure) in
-      
 //      var req = endpoint.urlRequest!
 //      if var tmpStrURL = req.url?.absoluteString {
 //        tmpStrURL = tmpStrURL.replacingOccurrences(of: "%5B%5D", with: "")
 //        req.url = URL(string: tmpStrURL)
 //      }
-      
       closure(.success(endpoint.urlRequest!))
     }
   }

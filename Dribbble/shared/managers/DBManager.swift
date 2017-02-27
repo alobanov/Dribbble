@@ -36,7 +36,7 @@ class DBManager {
     // Tell Realm to use this new configuration object for the default Realm
     Realm.Configuration.defaultConfiguration = config
     
-    self.createStorage()
+//    self.createStorage()
     
     realmInstance = try! Realm()
   }

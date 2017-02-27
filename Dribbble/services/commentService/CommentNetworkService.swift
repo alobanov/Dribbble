@@ -15,6 +15,7 @@ protocol CommentNetworkPagination: NetworkServiceStateble {
   
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
+  var paginationState: Variable<PaginationState> {get}
 }
 
 class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
@@ -26,11 +27,13 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   
   // internal
   private var page = 1
+  private let perPage = 10
   
   // Public
   var comments = Variable<[ShotCommentModel]>([])
   var loadNextPageTrigger = PublishSubject<Void>()
   var refreshTrigger = PublishSubject<Void>()
+  var paginationState = Variable<PaginationState>(.firstPage)
   
   init(api: Networking, shotId: Int) {
     super.init()
@@ -43,13 +46,22 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   
   func configureRx() {
     self.refreshTrigger
-    .filter { !self.isRequestInProcess() }
-    .subscribe(onNext: { [weak self] _ in
-      self?.obtainFirstPage()
-    }).addDisposableTo(bag)
+      .filter({[weak self] _ -> Bool in
+        guard let s = self else {
+          return false
+        }
+        
+        return !s.isRequestInProcess()
+      })
+      .subscribe(onNext: { [weak self] _ in
+        self?.obtainFirstPage()
+      }).addDisposableTo(bag)
     
     self.loadNextPageTrigger
-      .filter { !self.isRequestInProcess() }
+      .filter({[weak self] _ -> Bool in
+        guard let s = self else { return false }
+        return !s.isRequestInProcess()
+      })
       .subscribe(onNext: { [weak self] _ in
         self?.obtainNextPage()
       }).addDisposableTo(bag)
@@ -61,6 +73,7 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   }
   
   func obtainFirstPage() {
+    self.paginationState.value = .firstPage
     self.page = 1
     self.obtainShots(by: 1)
   }
@@ -68,18 +81,22 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   func obtainShots(by page: Int) {
     let response = api
       .provider
-      .request(DribbbleAPI.shotComments(shotID: self.shotId, page: page, perPage: 30))
+      .request(DribbbleAPI.shotComments(shotID: self.shotId, page: page, perPage: perPage))
       .mapJSONObjectArray(ShotCommentModel.self)
     
     // prepare result
     let result = self.handleResponse(response)
-      .do(onError: {[weak self] _ in
+      .do(onNext: {[weak self] (comments) in
+        if let pp = self?.perPage  {
+          self?.paginationState.value = (comments.count < pp) ? .endOfList : .morePage;
+        } 
+      }, onError: {[weak self] _ in
         self?.page = page-1
       })
     
     // merge new result with exists data
     Observable.combineLatest(result, self.comments.asObservable()) { new, exists in
-      return (page == 1) ? new : exists + new
+        return (page == 1) ? new : exists + new
       }
       .take(1)
       .bindTo(self.comments)

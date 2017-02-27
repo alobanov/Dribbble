@@ -69,15 +69,29 @@ class ShotViewController: UIViewController, ShotInput {
     model.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
       case .normal, .error, .empty:
-        delay(3, closure: {
-          self?.tableView.fty.infiniteScroll.end()
-          self?.tableView.fty.pullToRefresh.end()
-        })
+        self?.stopCommentActivity()
         break
+        
       default: break
         // nothing
       }
     }).disposed(by: bag)
+    
+    model.paginationState.asObservable().subscribe(onNext: {[weak self] state in
+      switch state {
+      case .firstPage, .endOfList:
+        self?.enableInfinityScroll(state: false)
+        break
+        
+      case .morePage:
+        self?.enableInfinityScroll(state: true)
+        break
+        
+      default:
+        self?.enableInfinityScroll(state: false)
+        break
+      }
+    }).addDisposableTo(bag)
     
     model.displayError.subscribe(onNext: { err in
       Popup.showNavError(err)
@@ -86,17 +100,17 @@ class ShotViewController: UIViewController, ShotInput {
     // refresh first page on start
     model.refreshComments()
     
-    let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 10, width: 24, height: 24))
-    tableView.fty.pullToRefresh.add(animator: animator) { _ in
-      model.refreshComments()
-    }
-    
     let animator2 = DefaultInfiniteAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     tableView.fty.infiniteScroll.add(animator: animator2) { _ in
       model.obtainCommentsNextPage()
     }
     
-    tableView.fty
+    let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 10, width: 24, height: 24))
+    tableView.fty.pullToRefresh.add(animator: animator) { _ in
+      model.refreshComments()
+    }
+    tableView.fty.infiniteScroll.isEnabled = false
+    
   }
   
   func configureUI() {
@@ -111,6 +125,17 @@ class ShotViewController: UIViewController, ShotInput {
 //  }
   
   // MARK: - Additional
+  
+  func stopCommentActivity() {
+    delay(1, closure: {
+      self.tableView.fty.infiniteScroll.end()
+      self.tableView.fty.pullToRefresh.end()
+    })
+  }
+  
+  func enableInfinityScroll(state: Bool) {
+    self.tableView.fty.infiniteScroll.isEnabled = state
+  }
   
   deinit {
     tableView.fty.pullToRefresh.remove()

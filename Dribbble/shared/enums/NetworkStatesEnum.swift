@@ -8,6 +8,13 @@
 
 import Foundation
 
+enum PaginationState {
+  case firstPage
+  case morePage
+  case endOfList
+  case undefined
+}
+
 // MARK: - Enum Values
 enum LoadingState: Equatable {
   /// Content is available and not loading any content

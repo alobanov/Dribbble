@@ -28,6 +28,6 @@ class Schedulers {
     queueRequestNetwork = DispatchQueue(label: "ru.dribbble", attributes: DispatchQueue.Attributes.concurrent)
     
     mainScheduler = MainScheduler.instance
-    backgroundQueue = DispatchQueue.global(qos: .background)//dispatch_queue_create("ru.alobanov.tavern", DISPATCH_QUEUE_SERIAL)
+    backgroundQueue = DispatchQueue(label: "ru.dribbble.lobanov", qos: .background, attributes: [.concurrent])
   }
 }

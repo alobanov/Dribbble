@@ -27,6 +27,7 @@ protocol ShotOutput: RxModelOutput {
   var router: ShotRouterInput! {get}
   var title: Variable<String> {get}
   var datasourceItems: Variable<[ModelSection]> {get}
+  var paginationState: Variable<PaginationState> {get}
   var shotId: Int {get}
   func confRx()
   
@@ -50,6 +51,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   var title = Variable<String>("Title")
   var datasourceItems = Variable<[ModelSection]>([])
   var shotId: Int
+  var paginationState = Variable<PaginationState>(.undefined)
   
   // Private
   
@@ -73,6 +75,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
     
     self.commentService.displayError.bindTo(self._displayError).addDisposableTo(bag)
     self.commentService.loadingState.bindTo(self._loadingState).addDisposableTo(bag)
+    self.commentService.paginationState.asObservable().bindTo(self.paginationState).addDisposableTo(bag)
     
     self.commentService.comments
       .asObservable().skip(1)
@@ -84,7 +87,6 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
         return removeDuplicates(source: items)
       })
       .map({[weak self] items -> [ModelSection] in
-        print("WOWOWOWOW")
         return self?.prepareForDatasource(list: items) ?? []
       })
       .observeOn(Schedulers.shared.mainScheduler)
