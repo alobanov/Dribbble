@@ -30,7 +30,6 @@ class ShotViewController: UIViewController, ShotInput {
   
   override func awakeFromNib() {
     super.awakeFromNib()
-//    ShotConfigurator.configure(self)
   }
   
   // MARK: - View Live Circle
