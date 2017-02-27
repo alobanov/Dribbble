@@ -42,7 +42,6 @@ extension ShotViewController {
       }
       
       // Reloadeble cell
-//      cell.imageTask?.cancel()
       cell.reload(with: item.model)
       
       return cell
@@ -66,7 +65,6 @@ extension ShotViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     
     let item: ModelSectionItem = try! self.dataSource!.model(at: indexPath) as! ModelSectionItem
-    
     guard let model = item.model as? CommentCellModel else {
      return 0
     }

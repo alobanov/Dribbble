@@ -20,7 +20,7 @@ struct CommentCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
   
   init(comment: ShotCommentModel) {
     if let t = comment.body {
-      text = t.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil).replacingOccurrences(of: "\n", with: "")
+      text = t.removeAllHTMPTags()
       textHTML = t.deleteHTMLTags(tags: ["p", "br"])
     }
     
@@ -43,6 +43,10 @@ struct CommentCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
 }
 
 extension String {
+  func removeAllHTMPTags() -> String {
+    return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil).replacingOccurrences(of: "\n", with: "")
+  }
+  
   func deleteHTMLTag(tag:String) -> String {
     return self.replacingOccurrences(of: "(?i)</?\(tag)\\b[^<]*>", with: "", options: .regularExpression, range: nil)
   }
