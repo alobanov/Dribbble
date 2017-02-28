@@ -22,7 +22,6 @@ class FeedViewController: UIViewController, FeedInput {
   // MARK: - Properties
   // dependencies
   var viewModel: FeedOutput?
-//  var dataSource: RxCollectionViewSectionedAnimatedDataSource<ModelSection>!
   
   // Private    
   var bag: DisposeBag! = DisposeBag()

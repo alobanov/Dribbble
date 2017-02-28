@@ -10,9 +10,6 @@ import Foundation
 import RxSwift
 
 protocol CommentNetworkPagination: NetworkServiceStateble {
-  func obtainNextPage()
-  func obtainFirstPage()
-  
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
   var paginationState: Variable<PaginationState> {get}

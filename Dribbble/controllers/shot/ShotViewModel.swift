@@ -29,8 +29,8 @@ protocol ShotOutput: RxModelOutput {
   var datasourceItems: Variable<[ModelSection]> {get}
   var paginationState: Variable<PaginationState> {get}
   var shotId: Int {get}
-  func confRx()
   
+  func configureRx()
   func refreshComments()
   func obtainCommentsNextPage()
 }
@@ -56,12 +56,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // Private
   
   // MARK:- init
-  init(dependencies:(
-    view: ShotInput,
-    router: ShotRouterInput,
-    commentService: CommentNetworkService,
-    shotId: Int
-    )) {
+  init(dependencies:InputDependencies) {
     self.view = dependencies.view
     self.router = dependencies.router
     self.commentService = dependencies.commentService
@@ -71,7 +66,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   }
   
   // Output
-  func confRx() {
+  func configureRx() {
     
     self.commentService.displayError.bindTo(self._displayError).addDisposableTo(bag)
     self.commentService.loadingState.bindTo(self._loadingState).addDisposableTo(bag)
@@ -99,6 +94,15 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   
   deinit {
     print("-- ShotViewModel dead")
+  }
+}
+
+extension ShotViewModel: ViewModelType {
+  struct InputDependencies {
+    let view: ShotInput
+    let router: ShotRouterInput
+    let commentService: CommentNetworkService
+    let shotId: Int
   }
 }
 

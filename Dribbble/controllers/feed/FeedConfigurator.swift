@@ -25,8 +25,11 @@ class FeedConfigurator
     let appSettings = AppSettingsStorage.shared
     
     // view model
+    
+    let dependencies = FeedViewModel.InputDependencies(view: viewController, router: router, api: api, realm: realm, appSettings: appSettings)
+    
     let viewModel = FeedViewModel(
-      dependencies: (view: viewController, router: router, api: api, realm: realm, appSettings: appSettings)
+      dependencies: dependencies
     )
     
     // controller

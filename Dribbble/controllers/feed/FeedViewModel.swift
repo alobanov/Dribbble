@@ -67,13 +67,7 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   
   // MARK:- init
   
-  init(dependencies:(
-    view: FeedInput,
-    router: FeedRouterInput,
-    api: Networking,
-    realm: Realm?,
-    appSettings: AppSettingsStorage?
-    )) {
+  init(dependencies: InputDependencies) {
     self.view = dependencies.view
     self.router = dependencies.router
     self.api = dependencies.api
@@ -142,6 +136,19 @@ class FeedViewModel: RxViewModel, FeedOutput, FeedModuleInput, FeedViewModelTest
   }
 }
 
+extension FeedViewModel: ViewModelType {
+  struct InputDependencies {
+    let view: FeedInput
+    let router: FeedRouterInput
+    let api: Networking
+    let realm: Realm?
+    let appSettings: AppSettingsStorage?
+  }
+  
+  struct Input {
+    let changeLayoutTap: Driver<Void>
+  }
+}
 
 // MARK: - Additional helpers
 extension FeedViewModel {
