@@ -25,8 +25,11 @@ class FeedConfigurator
     let appSettings = AppSettingsStorage.shared
     
     // view model
+    let service: FeedNetworkPagination = FeedNetworkService(api: api, realm: realm!, appSettings: appSettings)
+    let dependencies = FeedViewModel.InputDependencies(view: viewController, router: router, feedService: service)
+    
     let viewModel = FeedViewModel(
-      dependencies: (view: viewController, router: router, api: api, realm: realm, appSettings: appSettings)
+      dependencies: dependencies
     )
     
     // controller

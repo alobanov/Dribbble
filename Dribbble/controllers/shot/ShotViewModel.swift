@@ -29,8 +29,8 @@ protocol ShotOutput: RxModelOutput {
   var datasourceItems: Variable<[ModelSection]> {get}
   var paginationState: Variable<PaginationState> {get}
   var shotId: Int {get}
-  func confRx()
   
+  func configureRx()
   func refreshComments()
   func obtainCommentsNextPage()
 }
@@ -44,7 +44,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // MARK:- dependencies
   fileprivate weak var view: ShotInput!
   var router: ShotRouterInput!
-  fileprivate var commentService: CommentNetworkService!
+  fileprivate var commentService: CommentNetworkPagination!
   
   // MARK:- properties
   // ShotOutput
@@ -56,12 +56,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // Private
   
   // MARK:- init
-  init(dependencies:(
-    view: ShotInput,
-    router: ShotRouterInput,
-    commentService: CommentNetworkService,
-    shotId: Int
-    )) {
+  init(dependencies:InputDependencies) {
     self.view = dependencies.view
     self.router = dependencies.router
     self.commentService = dependencies.commentService
@@ -71,7 +66,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   }
   
   // Output
-  func confRx() {
+  func configureRx() {
     
     self.commentService.displayError.bindTo(self._displayError).addDisposableTo(bag)
     self.commentService.loadingState.bindTo(self._loadingState).addDisposableTo(bag)
@@ -86,8 +81,8 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
       .map({ items -> [CommentCellModel] in
         return removeDuplicates(source: items)
       })
-      .map({[weak self] items -> [ModelSection] in
-        return self?.prepareForDatasource(list: items) ?? []
+      .map({ items -> [ModelSection] in
+        return items.prepareForDatasource()
       })
       .observeOn(Schedulers.shared.mainScheduler)
       .bindTo(self.datasourceItems)
@@ -102,18 +97,17 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   }
 }
 
+extension ShotViewModel: ViewModelType {
+  struct InputDependencies {
+    let view: ShotInput
+    let router: ShotRouterInput
+    let commentService: CommentNetworkPagination
+    let shotId: Int
+  }
+}
+
 // MARK: - Additional helpers
 extension ShotViewModel {
-  
-  /// Wrap ShotModels into datasource protocols
-  ///
-  /// - Parameter list: ShotModel
-  /// - Returns: Wrapped array of ModelSection
-  func prepareForDatasource(list: [CommentCellModel]) -> [ModelSection] {
-    var renderItemsData: [ModelSectionItem] = []
-    renderItemsData = list.map { ModelSectionItem(model: $0) }
-    return [ModelSection(items: renderItemsData)]
-  }
   
 }
 

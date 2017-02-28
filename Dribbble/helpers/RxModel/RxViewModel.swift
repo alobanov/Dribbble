@@ -14,8 +14,12 @@ protocol RxModelOutput {
   var displayError: Observable<NSError> {get}
 }
 
+protocol ViewModelType {
+  associatedtype InputDependencies
+}
+
 class RxViewModel {
-  let bag: DisposeBag!
+  let bag = DisposeBag()
   
   var displayError: Observable<NSError> {
     return _displayError.asObservable().skip(1)
@@ -27,10 +31,6 @@ class RxViewModel {
   
   internal var _loadingState = Variable<LoadingState>(.unknown)
   internal var _displayError = Variable<NSError>(NSError(domain: "", code: 0, userInfo: nil))
-  
-  init() {
-    bag = DisposeBag()
-  }
   
   func isRequestInProcess() -> Bool {
     guard _loadingState.value != .loading else { return true }

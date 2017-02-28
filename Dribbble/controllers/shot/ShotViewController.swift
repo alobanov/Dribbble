@@ -59,7 +59,7 @@ class ShotViewController: UIViewController, ShotInput {
   
   func configureRx() {
     guard let model = viewModel else { return }
-    model.confRx()
+    model.configureRx()
     
     model.title.asObservable()
       .bindTo(self.rx.title)
