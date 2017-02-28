@@ -44,7 +44,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // MARK:- dependencies
   fileprivate weak var view: ShotInput!
   var router: ShotRouterInput!
-  fileprivate var commentService: CommentNetworkService!
+  fileprivate var commentService: CommentNetworkPagination!
   
   // MARK:- properties
   // ShotOutput
@@ -101,7 +101,7 @@ extension ShotViewModel: ViewModelType {
   struct InputDependencies {
     let view: ShotInput
     let router: ShotRouterInput
-    let commentService: CommentNetworkService
+    let commentService: CommentNetworkPagination
     let shotId: Int
   }
 }

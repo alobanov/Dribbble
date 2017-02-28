@@ -66,6 +66,7 @@
 		E86CD8601E471E8A00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
 		E86CD8611E471E8E00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
 		E86CD8661E47726F00A8F4FC /* FeedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CD8651E47726F00A8F4FC /* FeedEnums.swift */; };
+		E86CFFA21E65A7E7003BC3BF /* BasePaginationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */; };
 		E89A79061E31FC510074FDF8 /* FeedModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */; };
 		E89A790A1E322EE80074FDF8 /* Feed.json in Resources */ = {isa = PBXBuildFile; fileRef = E8376DD91E2FC6C500F2F2B9 /* Feed.json */; };
 		E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790B1E3259970074FDF8 /* Realm+Extension.swift */; };
@@ -165,6 +166,7 @@
 		E8447C471E5ABFFD000C9062 /* AZTextFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AZTextFrame.swift; sourceTree = "<group>"; };
 		E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FeedPage2.json; sourceTree = "<group>"; };
 		E86CD8651E47726F00A8F4FC /* FeedEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedEnums.swift; sourceTree = "<group>"; };
+		E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePaginationService.swift; sourceTree = "<group>"; };
 		E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModelSpec.swift; sourceTree = "<group>"; };
 		E89A790B1E3259970074FDF8 /* Realm+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extension.swift"; sourceTree = "<group>"; };
 		E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingStorage.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				E8E5F4941E3F3F4D005D7EE4 /* feedPagination */,
 				E82D70271E2F720900A1F7AA /* schedulers */,
 				E8FDD1E01E5735C000984538 /* BaseNetworkService.swift */,
+				E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -1008,6 +1011,7 @@
 				E82D6FE21E2F49BE00A1F7AA /* ErrorManager.swift in Sources */,
 				E8FDD1EF1E57514F00984538 /* CommentShotCell.swift in Sources */,
 				E8EA48311E3CC32200FF902D /* UIScrollView+Rx.swift in Sources */,
+				E86CFFA21E65A7E7003BC3BF /* BasePaginationService.swift in Sources */,
 				E82D70231E2F676F00A1F7AA /* Observable+ResponseFilter.swift in Sources */,
 				E82D70411E2F92DD00A1F7AA /* AppCellTypes.swift in Sources */,
 				E8FDD1E61E57384C00984538 /* BasePonso.swift in Sources */,
