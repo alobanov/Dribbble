@@ -70,10 +70,7 @@ class FeedViewController: UIViewController, FeedInput {
     model.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
       case .normal, .error, .empty:
-        delay(1, closure: { 
-          self?.collectionView.fty.infiniteScroll.end()
-          self?.collectionView.fty.pullToRefresh.end()
-        })
+        self?.stopCommentActivity()
         break
       default: break
         // nothing
@@ -98,6 +95,18 @@ class FeedViewController: UIViewController, FeedInput {
         self?.updateLayout(layout: layout)
     }).disposed(by: bag)
     
+    model.paginationState.asObservable().subscribe(onNext: {[weak self] state in
+      switch state {
+      case .firstPage, .endOfList, .undefined:
+        self?.enableInfinityScroll(state: false)
+        break
+        
+      case .morePage:
+        self?.enableInfinityScroll(state: true)
+        break
+      }
+    }).addDisposableTo(bag)
+    
     // refresh first page on start
     model.refreshTrigger.onNext()
   }
@@ -116,6 +125,17 @@ class FeedViewController: UIViewController, FeedInput {
   func updateLayout(layout: CurrentLayout) {
     self.rightNavButton.FAIcon = layout.icon
     self.collectionView?.setCollectionViewLayout(createLayout(layout), animated: true)
+  }
+  
+  func enableInfinityScroll(state: Bool) {
+    self.collectionView.fty.infiniteScroll.isEnabled = state
+  }
+  
+  func stopCommentActivity() {
+    delay(1, closure: {
+      self.collectionView.fty.infiniteScroll.end()
+      self.collectionView.fty.pullToRefresh.end()
+    })
   }
   
   deinit {

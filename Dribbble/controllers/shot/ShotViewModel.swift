@@ -81,8 +81,8 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
       .map({ items -> [CommentCellModel] in
         return removeDuplicates(source: items)
       })
-      .map({[weak self] items -> [ModelSection] in
-        return self?.prepareForDatasource(list: items) ?? []
+      .map({ items -> [ModelSection] in
+        return items.prepareForDatasource()
       })
       .observeOn(Schedulers.shared.mainScheduler)
       .bindTo(self.datasourceItems)
@@ -108,16 +108,6 @@ extension ShotViewModel: ViewModelType {
 
 // MARK: - Additional helpers
 extension ShotViewModel {
-  
-  /// Wrap ShotModels into datasource protocols
-  ///
-  /// - Parameter list: ShotModel
-  /// - Returns: Wrapped array of ModelSection
-  func prepareForDatasource(list: [CommentCellModel]) -> [ModelSection] {
-    var renderItemsData: [ModelSectionItem] = []
-    renderItemsData = list.map { ModelSectionItem(model: $0) }
-    return [ModelSection(items: renderItemsData)]
-  }
   
 }
 

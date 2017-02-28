@@ -10,20 +10,18 @@ import Foundation
 import RxSwift
 import RealmSwift
 
-protocol FeedNetworkPagination: NetworkServiceStateble {
-  var loadNextPageTrigger: PublishSubject<Void> {get}
-  var refreshTrigger: PublishSubject<Void> {get}
-  var paginationState: Variable<PaginationState> {get}
+protocol FeedNetworkPagination: NetworkPagination {
   var shots: Variable<[ShotModel]> {get}
+  func prepareFirstPageFromCache() -> [ShotModel]
+  func mapFirstPage()
 }
 
-class FeedNetworkService: BaseNetworkService, FeedNetworkPagination {
+class FeedNetworkService: BasePaginationService, FeedNetworkPagination {
   
   // Private
   // Dependencies
-  private var api: Networking!
-  private var shotId: Int!
-  private var realm: Realm!
+  fileprivate var realm: Realm!
+  fileprivate var appSettings: AppSettingsStorage?
   
   // internal
   private var page = 1
@@ -31,58 +29,16 @@ class FeedNetworkService: BaseNetworkService, FeedNetworkPagination {
   
   // Public
   var shots = Variable<[ShotModel]>([])
-  var loadNextPageTrigger = PublishSubject<Void>()
-  var refreshTrigger = PublishSubject<Void>()
-  var paginationState = Variable<PaginationState>(.firstPage)
   
-  init(api: Networking, shotId: Int, realm: Realm) {
-    super.init()
+  init(api: Networking, realm: Realm, appSettings: AppSettingsStorage?) {
+    super.init(api: api)
     
     self.realm = realm
-    self.api = api
-    self.shotId = shotId
-    
+    self.appSettings = appSettings
     self.configureRx()
   }
   
-  func configureRx() {
-    self.refreshTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let state = self?.isRequestInProcess() else {
-          return false
-        }
-        
-        return !state
-      })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainFirstPage()
-      }).addDisposableTo(bag)
-    
-    self.loadNextPageTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let state = self?.isRequestInProcess() else {
-          return false
-        }
-        
-        return !state
-      })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainNextPage()
-      }).addDisposableTo(bag)
-  }
-  
-  func obtainNextPage() {
-    self.page+=1
-    self.obtainShots(page: self.page)
-  }
-  
-  func obtainFirstPage() {
-    self.paginationState.value = .firstPage
-    self.page = 1
-    self.obtainShots(page: 1)
-  }
-  
-  func obtainShots(page: Int) {
+  override func obtainData(by page: Int) {
     let response = api
       .provider
       .request(DribbbleAPI.shots(page: page, list: nil, timeframe: nil, date: nil, sort: nil))
@@ -91,10 +47,14 @@ class FeedNetworkService: BaseNetworkService, FeedNetworkPagination {
     // prepare result
     let result = self.handleResponse(response)
       .do(onNext: {[weak self] (shots) in
-          if let pp = self?.perPage  {
-            self?.paginationState.value = (shots.count < pp) ? .endOfList : .morePage;
-          }
-        }, onError: {[weak self] _ in
+        if let pp = self?.perPage  {
+          self?.paginationState.value = (shots.count < pp) ? .endOfList : .morePage;
+        }
+        
+        if (page == 1) {
+            self?.saveFirstPage(by: shots)
+        }
+      }, onError: {[weak self] _ in
           self?.page = page-1
       })
     
@@ -112,4 +72,39 @@ class FeedNetworkService: BaseNetworkService, FeedNetworkPagination {
     print("-- CommentNetworkService dead")
   }
   
+}
+
+// MARK: - Additional helpers
+extension FeedNetworkService {
+  
+  /// Obtain last cached first page of feed
+  ///
+  /// - Returns: Wrapped array of ModelSection
+  func prepareFirstPageFromCache() -> [ShotModel] {
+    guard let r = self.realm else { return []; }
+    
+    if let ids = self.appSettings?.feedFirstPage {
+      let predicate = NSPredicate(format: "shotId IN %@", ids)
+      return r.objects(ShotModel.self)
+        .filter(predicate)
+        .sorted { ids.index(of: $0.shotId)! < ids.index(of: $1.shotId)! }
+    } else {
+      return []
+    }
+  }
+  
+  func mapFirstPage() {
+    let cache = self.prepareFirstPageFromCache()
+    if (cache.count > 0) {
+      self.shots.value = cache
+    }
+  }
+  
+  /// Saving ids of first page
+  ///
+  /// - Parameter by: [FeedCellModel]
+  func saveFirstPage(by: [ShotModel]) {
+    let ids = by.map { $0.shotId }
+    self.appSettings?.feedFirstPage = ids
+  }
 }

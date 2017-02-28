@@ -9,18 +9,14 @@
 import Foundation
 import RxSwift
 
-protocol CommentNetworkPagination: NetworkServiceStateble {
-  var loadNextPageTrigger: PublishSubject<Void> {get}
-  var refreshTrigger: PublishSubject<Void> {get}
-  var paginationState: Variable<PaginationState> {get}
+protocol CommentNetworkPagination: NetworkPagination {
   var comments: Variable<[ShotCommentModel]> {get}
 }
 
-class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
+class CommentNetworkService: BasePaginationService, CommentNetworkPagination {
   
   // Private
   // Dependencies
-  private var api: Networking!
   private var shotId: Int!
   
   // internal
@@ -29,54 +25,13 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   
   // Public
   var comments = Variable<[ShotCommentModel]>([])
-  var loadNextPageTrigger = PublishSubject<Void>()
-  var refreshTrigger = PublishSubject<Void>()
-  var paginationState = Variable<PaginationState>(.firstPage)
   
   init(api: Networking, shotId: Int) {
-    super.init()
-    
-    self.api = api
+    super.init(api: api)
     self.shotId = shotId
-    
-    self.configureRx()
   }
   
-  func configureRx() {
-    self.refreshTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let s = self else {
-          return false
-        }
-        
-        return !s.isRequestInProcess()
-      })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainFirstPage()
-      }).addDisposableTo(bag)
-    
-    self.loadNextPageTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let s = self else { return false }
-        return !s.isRequestInProcess()
-      })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainNextPage()
-      }).addDisposableTo(bag)
-  }
-  
-  func obtainNextPage() {
-    self.page+=1
-    self.obtainComments(by: self.page)
-  }
-  
-  func obtainFirstPage() {
-    self.paginationState.value = .firstPage
-    self.page = 1
-    self.obtainComments(by: 1)
-  }
-  
-  func obtainComments(by page: Int) {
+  override func obtainData(by page: Int) {
     let response = api
       .provider
       .request(DribbbleAPI.shotComments(shotID: self.shotId, page: page, perPage: perPage))
@@ -102,6 +57,6 @@ class CommentNetworkService: BaseNetworkService, CommentNetworkPagination {
   }
   
   deinit {
-    print("-- CommentNetworkService dead")
+    print("--- CommentNetworkService dead")
   }
 }

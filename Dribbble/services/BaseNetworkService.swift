@@ -49,4 +49,8 @@ class BaseNetworkService: NetworkServiceStateble {
         self?._loadingState.value = .error
       })
   }
+  
+  deinit {
+    print("---- BaseNetworkService dead")
+  }
 }

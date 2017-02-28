@@ -19,7 +19,7 @@ class BasePaginationService: BaseNetworkService, NetworkPagination {
   
   // Private
   // Dependencies
-  private var api: Networking!
+  var api: Networking!
   
   // internal
   private var page = 1
@@ -62,20 +62,20 @@ class BasePaginationService: BaseNetworkService, NetworkPagination {
   
   func obtainNextPage() {
     self.page+=1
-    self.obtainComments(by: self.page)
+    self.obtainData(by: self.page)
   }
   
   func obtainFirstPage() {
     self.paginationState.value = .firstPage
     self.page = 1
-    self.obtainComments(by: 1)
+    self.obtainData(by: 1)
   }
   
-  func obtainComments(by page: Int) {
-    
+  func obtainData(by page: Int) {
+    // need override
   }
   
   deinit {
-    print("-- BasePaginationService dead")
+    print("---- BasePaginationService dead")
   }
 }
