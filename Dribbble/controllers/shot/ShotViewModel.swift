@@ -35,14 +35,9 @@ protocol ShotOutput: RxModelOutput {
   func obtainCommentsNextPage()
 }
 
-protocol ShotInput: class {
-  //  func show(error: NSError)
-}
-
 class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   
   // MARK:- dependencies
-  fileprivate weak var view: ShotInput!
   var router: ShotRouterInput!
   fileprivate var commentService: CommentNetworkPagination!
   
@@ -57,7 +52,6 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   
   // MARK:- init
   init(dependencies:InputDependencies) {
-    self.view = dependencies.view
     self.router = dependencies.router
     self.commentService = dependencies.commentService
     self.shotId = dependencies.shotId
@@ -68,12 +62,12 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // Output
   func configureRx() {
     
-    self.commentService.displayError.bindTo(self._displayError).addDisposableTo(bag)
-    self.commentService.loadingState.bindTo(self._loadingState).addDisposableTo(bag)
+    self.commentService.networkError.map { $0.error }.bindTo(self._displayError).addDisposableTo(bag)
+    self.commentService.commonNetworkState.map { $0.state }.bindTo(self._loadingState).addDisposableTo(bag)
     self.commentService.paginationState.asObservable().bindTo(self.paginationState).addDisposableTo(bag)
     
     self.commentService.comments
-      .asObservable().skip(1)
+      .asObservable()
       .observeOn(Schedulers.shared.backgroundWorkScheduler)
       .map({ comments -> [CommentCellModel] in
         return comments.map { $0.commentModel() }
@@ -87,7 +81,6 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
       .observeOn(Schedulers.shared.mainScheduler)
       .bindTo(self.datasourceItems)
       .addDisposableTo(bag)
-    
   }
   
   // MARK: - Additional
@@ -99,7 +92,6 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
 
 extension ShotViewModel: ViewModelType {
   struct InputDependencies {
-    let view: ShotInput
     let router: ShotRouterInput
     let commentService: CommentNetworkPagination
     let shotId: Int

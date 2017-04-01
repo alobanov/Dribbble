@@ -16,7 +16,7 @@ protocol FeedNetworkPagination: NetworkPagination {
   func mapFirstPage()
 }
 
-class FeedNetworkService: BasePaginationService, FeedNetworkPagination {
+class FeedNetworkService: PaginationService, FeedNetworkPagination {
   
   // Private
   // Dependencies
@@ -31,7 +31,7 @@ class FeedNetworkService: BasePaginationService, FeedNetworkPagination {
   var shots = Variable<[ShotModel]>([])
   
   init(api: Networking, realm: Realm, appSettings: AppSettingsStorage?) {
-    super.init(api: api)
+    super.init(networking: api)
     
     self.realm = realm
     self.appSettings = appSettings
@@ -39,16 +39,19 @@ class FeedNetworkService: BasePaginationService, FeedNetworkPagination {
   }
   
   override func obtainData(by page: Int) {
+    
+    let method = DribbbleAPI.shots(page: page, list: nil, timeframe: nil, date: nil, sort: nil)
+    
     let response = api
       .provider
-      .request(DribbbleAPI.shots(page: page, list: nil, timeframe: nil, date: nil, sort: nil))
+      .request(method)
       .mapJSONObjectArray(ShotModel.self, realm: self.realm)
     
     // prepare result
-    let result = self.handleResponse(response)
-      .do(onNext: {[weak self] (shots) in
+    let result = self.handleResponse(response, networkReqestType: .shots)
+      .do(onNext: {[weak self] shots in
         if let pp = self?.perPage  {
-          self?.paginationState.value = (shots.count < pp) ? .endOfList : .morePage;
+          self?.paginationState.onNext((shots.count < pp) ? .endOfList : .morePage)
         }
         
         if (page == 1) {

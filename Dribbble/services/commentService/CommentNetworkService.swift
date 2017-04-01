@@ -13,7 +13,7 @@ protocol CommentNetworkPagination: NetworkPagination {
   var comments: Variable<[ShotCommentModel]> {get}
 }
 
-class CommentNetworkService: BasePaginationService, CommentNetworkPagination {
+class CommentNetworkService: PaginationService, CommentNetworkPagination {
   
   // Private
   // Dependencies
@@ -27,7 +27,7 @@ class CommentNetworkService: BasePaginationService, CommentNetworkPagination {
   var comments = Variable<[ShotCommentModel]>([])
   
   init(api: Networking, shotId: Int) {
-    super.init(api: api)
+    super.init(networking: api)
     self.shotId = shotId
   }
   
@@ -38,10 +38,10 @@ class CommentNetworkService: BasePaginationService, CommentNetworkPagination {
       .mapJSONObjectArray(ShotCommentModel.self)
     
     // prepare result
-    let result = self.handleResponse(response)
+    let result = self.handleResponse(response, networkReqestType: .shotComments)
       .do(onNext: {[weak self] (comments) in
         if let pp = self?.perPage  {
-          self?.paginationState.value = (comments.count < pp) ? .endOfList : .morePage;
+          self?.paginationState.onNext((comments.count < pp) ? .endOfList : .morePage)
         } 
       }, onError: {[weak self] _ in
         self?.page = page-1

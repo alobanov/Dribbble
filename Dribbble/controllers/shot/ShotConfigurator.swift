@@ -23,7 +23,7 @@ class ShotConfigurator
     let commentService = CommentNetworkService(api: api, shotId: shotID)
     
     // view model
-    let dependencies = ShotViewModel.InputDependencies(view: viewController, router: router, commentService: commentService, shotId: shotID)
+    let dependencies = ShotViewModel.InputDependencies(router: router, commentService: commentService, shotId: shotID)
     let viewModel = ShotViewModel(dependencies: dependencies)
     
     // controller

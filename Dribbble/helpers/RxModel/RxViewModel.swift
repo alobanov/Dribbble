@@ -38,15 +38,4 @@ class RxViewModel {
     
     return false
   }
-  
-  func handleResponse<E>(_ response: Observable<E>) -> Observable<E> {
-    return response.map { [weak self] (event) -> E in
-      self?._loadingState.value = .normal
-      return event
-    }.do(onError: { [weak self] (err) in
-      let e = err as NSError
-      self?._displayError.value = e
-      self?._loadingState.value = .error
-    })
-  }
 }

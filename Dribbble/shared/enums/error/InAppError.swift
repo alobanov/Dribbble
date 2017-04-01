@@ -16,6 +16,7 @@ enum AppError: Error {
   
   // salf made 401 error
   case appErrorUnauthorizedAccess
+  case dummyError
 }
 
 
@@ -32,6 +33,8 @@ extension AppError {
           return NSError(domain:ErrorManager.justDomain, code:-3, userInfo: [NSLocalizedDescriptionKey: message])
         case .appErrorUnauthorizedAccess:
           return NSError(domain:ErrorManager.justDomain, code:401, userInfo: [NSLocalizedDescriptionKey: "Unauthorized access"])
+        case .dummyError:
+          return NSError(domain:ErrorManager.justDomain, code:0, userInfo: [NSLocalizedDescriptionKey: "unknown"])
         }
     }
 }

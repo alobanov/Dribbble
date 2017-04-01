@@ -29,8 +29,6 @@
 		E82D70021E2F4B9C00A1F7AA /* Ext+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF11E2F4B9C00A1F7AA /* Ext+Common.swift */; };
 		E82D70031E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */; };
 		E82D70041E2F4B9C00A1F7AA /* String+NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF31E2F4B9C00A1F7AA /* String+NSAttributedString.swift */; };
-		E82D70051E2F4B9C00A1F7AA /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF51E2F4B9C00A1F7AA /* UIViewController+Navigation.swift */; };
-		E82D70061E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF61E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift */; };
 		E82D70071E2F4B9C00A1F7AA /* Observable+GreatMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF81E2F4B9C00A1F7AA /* Observable+GreatMapper.swift */; };
 		E82D70081E2F4B9C00A1F7AA /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FF91E2F4B9C00A1F7AA /* Observable+Operators.swift */; };
 		E82D70091E2F4B9C00A1F7AA /* StoryboardIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82D6FFB1E2F4B9C00A1F7AA /* StoryboardIdentifiable.swift */; };
@@ -66,7 +64,7 @@
 		E86CD8601E471E8A00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
 		E86CD8611E471E8E00A8F4FC /* FeedPage2.json in Resources */ = {isa = PBXBuildFile; fileRef = E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */; };
 		E86CD8661E47726F00A8F4FC /* FeedEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CD8651E47726F00A8F4FC /* FeedEnums.swift */; };
-		E86CFFA21E65A7E7003BC3BF /* BasePaginationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */; };
+		E86CFFA21E65A7E7003BC3BF /* PaginationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86CFFA11E65A7E7003BC3BF /* PaginationService.swift */; };
 		E89A79061E31FC510074FDF8 /* FeedModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */; };
 		E89A790A1E322EE80074FDF8 /* Feed.json in Resources */ = {isa = PBXBuildFile; fileRef = E8376DD91E2FC6C500F2F2B9 /* Feed.json */; };
 		E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89A790B1E3259970074FDF8 /* Realm+Extension.swift */; };
@@ -83,7 +81,7 @@
 		E8FDD1BF1E54330300984538 /* ShotCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1BE1E54330300984538 /* ShotCommentModel.swift */; };
 		E8FDD1DB1E57277E00984538 /* CommentNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1DA1E57277E00984538 /* CommentNetworkService.swift */; };
 		E8FDD1DD1E572F9000984538 /* NetworkStatesEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1DC1E572F9000984538 /* NetworkStatesEnum.swift */; };
-		E8FDD1E11E5735C000984538 /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1E01E5735C000984538 /* BaseNetworkService.swift */; };
+		E8FDD1E11E5735C000984538 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1E01E5735C000984538 /* NetworkService.swift */; };
 		E8FDD1E41E5737C800984538 /* CommentCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1E31E5737C800984538 /* CommentCellModel.swift */; };
 		E8FDD1E61E57384C00984538 /* BasePonso.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1E51E57384C00984538 /* BasePonso.swift */; };
 		E8FDD1E91E574CF400984538 /* Shot+CommentsRxTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FDD1E81E574CF400984538 /* Shot+CommentsRxTable.swift */; };
@@ -129,8 +127,6 @@
 		E82D6FF11E2F4B9C00A1F7AA /* Ext+Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Ext+Common.swift"; sourceTree = "<group>"; };
 		E82D6FF21E2F4B9C00A1F7AA /* ObjectsEmptyExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectsEmptyExtensions.swift; sourceTree = "<group>"; };
 		E82D6FF31E2F4B9C00A1F7AA /* String+NSAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NSAttributedString.swift"; sourceTree = "<group>"; };
-		E82D6FF51E2F4B9C00A1F7AA /* UIViewController+Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Navigation.swift"; sourceTree = "<group>"; };
-		E82D6FF61E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigatoinHide.swift"; sourceTree = "<group>"; };
 		E82D6FF81E2F4B9C00A1F7AA /* Observable+GreatMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+GreatMapper.swift"; sourceTree = "<group>"; };
 		E82D6FF91E2F4B9C00A1F7AA /* Observable+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
 		E82D6FFB1E2F4B9C00A1F7AA /* StoryboardIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardIdentifiable.swift; sourceTree = "<group>"; };
@@ -166,7 +162,7 @@
 		E8447C471E5ABFFD000C9062 /* AZTextFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AZTextFrame.swift; sourceTree = "<group>"; };
 		E86CD85F1E471E8A00A8F4FC /* FeedPage2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FeedPage2.json; sourceTree = "<group>"; };
 		E86CD8651E47726F00A8F4FC /* FeedEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedEnums.swift; sourceTree = "<group>"; };
-		E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePaginationService.swift; sourceTree = "<group>"; };
+		E86CFFA11E65A7E7003BC3BF /* PaginationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationService.swift; sourceTree = "<group>"; };
 		E89A79051E31FC510074FDF8 /* FeedModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModelSpec.swift; sourceTree = "<group>"; };
 		E89A790B1E3259970074FDF8 /* Realm+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extension.swift"; sourceTree = "<group>"; };
 		E89A790E1E325AFE0074FDF8 /* SettingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingStorage.swift; sourceTree = "<group>"; };
@@ -182,7 +178,7 @@
 		E8FDD1BE1E54330300984538 /* ShotCommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotCommentModel.swift; sourceTree = "<group>"; };
 		E8FDD1DA1E57277E00984538 /* CommentNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentNetworkService.swift; sourceTree = "<group>"; };
 		E8FDD1DC1E572F9000984538 /* NetworkStatesEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStatesEnum.swift; sourceTree = "<group>"; };
-		E8FDD1E01E5735C000984538 /* BaseNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNetworkService.swift; sourceTree = "<group>"; };
+		E8FDD1E01E5735C000984538 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E8FDD1E31E5737C800984538 /* CommentCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCellModel.swift; sourceTree = "<group>"; };
 		E8FDD1E51E57384C00984538 /* BasePonso.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePonso.swift; sourceTree = "<group>"; };
 		E8FDD1E81E574CF400984538 /* Shot+CommentsRxTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Shot+CommentsRxTable.swift"; sourceTree = "<group>"; };
@@ -417,7 +413,6 @@
 				E82D6FEA1E2F4B9C00A1F7AA /* alertview */,
 				E82D6FEC1E2F4B9C00A1F7AA /* cells */,
 				E82D6FF01E2F4B9C00A1F7AA /* common */,
-				E82D6FF41E2F4B9C00A1F7AA /* navigation */,
 				E82D6FF71E2F4B9C00A1F7AA /* observable */,
 				E82D6FFA1E2F4B9C00A1F7AA /* storyboard */,
 			);
@@ -453,15 +448,6 @@
 				E89A790B1E3259970074FDF8 /* Realm+Extension.swift */,
 			);
 			path = common;
-			sourceTree = "<group>";
-		};
-		E82D6FF41E2F4B9C00A1F7AA /* navigation */ = {
-			isa = PBXGroup;
-			children = (
-				E82D6FF51E2F4B9C00A1F7AA /* UIViewController+Navigation.swift */,
-				E82D6FF61E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift */,
-			);
-			path = navigation;
 			sourceTree = "<group>";
 		};
 		E82D6FF71E2F4B9C00A1F7AA /* observable */ = {
@@ -527,8 +513,8 @@
 				E8FDD1D91E57276800984538 /* commentService */,
 				E8E5F4941E3F3F4D005D7EE4 /* feedPagination */,
 				E82D70271E2F720900A1F7AA /* schedulers */,
-				E8FDD1E01E5735C000984538 /* BaseNetworkService.swift */,
-				E86CFFA11E65A7E7003BC3BF /* BasePaginationService.swift */,
+				E8FDD1E01E5735C000984538 /* NetworkService.swift */,
+				E86CFFA11E65A7E7003BC3BF /* PaginationService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -811,7 +797,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Lobanov Aleksey";
 				TargetAttributes = {
 					E82D6F671E2E5CC800A1F7AA = {
@@ -974,7 +960,6 @@
 				E89D7C161E43014200A9B4D9 /* FeedCellModel.swift in Sources */,
 				E82D6FDF1E2F49AE00A1F7AA /* ORMError.swift in Sources */,
 				E82D70201E2F66F600A1F7AA /* GlobalFunctions.swift in Sources */,
-				E82D70061E2F4B9C00A1F7AA /* UIViewController+NavigatoinHide.swift in Sources */,
 				E82D703F1E2F922C00A1F7AA /* CollectionSectionModel.swift in Sources */,
 				E82D70251E2F67B200A1F7AA /* Popup.swift in Sources */,
 				E89A790C1E3259970074FDF8 /* Realm+Extension.swift in Sources */,
@@ -995,7 +980,7 @@
 				E82D6FCE1E2F486F00A1F7AA /* ObjectMappable.swift in Sources */,
 				E82D700A1E2F4B9C00A1F7AA /* UIStoryboard+Storyboards.swift in Sources */,
 				E8447C481E5ABFFD000C9062 /* AZTextFrame.swift in Sources */,
-				E8FDD1E11E5735C000984538 /* BaseNetworkService.swift in Sources */,
+				E8FDD1E11E5735C000984538 /* NetworkService.swift in Sources */,
 				E8FDD1DD1E572F9000984538 /* NetworkStatesEnum.swift in Sources */,
 				E82D6FDE1E2F49AE00A1F7AA /* InAppError.swift in Sources */,
 				E82D70041E2F4B9C00A1F7AA /* String+NSAttributedString.swift in Sources */,
@@ -1011,7 +996,7 @@
 				E82D6FE21E2F49BE00A1F7AA /* ErrorManager.swift in Sources */,
 				E8FDD1EF1E57514F00984538 /* CommentShotCell.swift in Sources */,
 				E8EA48311E3CC32200FF902D /* UIScrollView+Rx.swift in Sources */,
-				E86CFFA21E65A7E7003BC3BF /* BasePaginationService.swift in Sources */,
+				E86CFFA21E65A7E7003BC3BF /* PaginationService.swift in Sources */,
 				E82D70231E2F676F00A1F7AA /* Observable+ResponseFilter.swift in Sources */,
 				E82D70411E2F92DD00A1F7AA /* AppCellTypes.swift in Sources */,
 				E8FDD1E61E57384C00984538 /* BasePonso.swift in Sources */,
@@ -1019,7 +1004,6 @@
 				E8A4B1921E4F10BA00151DD2 /* ShotRouter.swift in Sources */,
 				E82D6FE81E2F4ADE00A1F7AA /* ServerDateTransform.swift in Sources */,
 				E82D6FFF1E2F4B9C00A1F7AA /* CellIdentifiable.swift in Sources */,
-				E82D70051E2F4B9C00A1F7AA /* UIViewController+Navigation.swift in Sources */,
 				E8FDD1E91E574CF400984538 /* Shot+CommentsRxTable.swift in Sources */,
 				E82D70161E2F603500A1F7AA /* FeedViewController.swift in Sources */,
 				E82D6FA51E2F437F00A1F7AA /* FileReader.swift in Sources */,

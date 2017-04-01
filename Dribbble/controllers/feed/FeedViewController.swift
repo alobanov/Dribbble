@@ -14,7 +14,7 @@ import Infinity
 import Kingfisher
 import Font_Awesome_Swift
 
-class FeedViewController: UIViewController, FeedInput {
+class FeedViewController: UIViewController {
   // MARK: properties IBOutlets
   @IBOutlet weak var collectionView: UICollectionView!
   var rightNavButton: UIBarButtonItem!

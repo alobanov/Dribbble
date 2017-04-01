@@ -58,7 +58,7 @@ class ShotModel: ObjectMappable {
   }
   
   var unic: String? {
-    return "\(str_updated_at)"
+    return "\(String(describing: str_updated_at))"
   }
 }
 

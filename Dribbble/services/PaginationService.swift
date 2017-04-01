@@ -12,14 +12,10 @@ import RxSwift
 protocol NetworkPagination: NetworkServiceStateble {
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
-  var paginationState: Variable<PaginationState> {get}
+  var paginationState: BehaviorSubject<PaginationState> {get}
 }
 
-class BasePaginationService: BaseNetworkService, NetworkPagination {
-  
-  // Private
-  // Dependencies
-  var api: Networking!
+class PaginationService: NetworkService, NetworkPagination {
   
   // internal
   private var page = 1
@@ -28,35 +24,29 @@ class BasePaginationService: BaseNetworkService, NetworkPagination {
   // Public
   var loadNextPageTrigger = PublishSubject<Void>()
   var refreshTrigger = PublishSubject<Void>()
-  var paginationState = Variable<PaginationState>(.firstPage)
+  var paginationState = BehaviorSubject<PaginationState>(value: .firstPage)
   
-  init(api: Networking) {
-    super.init()
+  init(networking: Networking) {
+    super.init(api: networking)
     
-    self.api = api
     self.configureRx()
   }
   
   func configureRx() {
     self.refreshTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let s = self else {
-          return false
-        }
-        
-        return !s.isRequestInProcess()
+      .filter({ [unowned self] _ -> Bool in
+        return !self.isRequestInProcess()
       })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainFirstPage()
+      .subscribe(onNext: { [unowned self] _ in
+        self.obtainFirstPage()
       }).addDisposableTo(bag)
     
     self.loadNextPageTrigger
-      .filter({[weak self] _ -> Bool in
-        guard let s = self else { return false }
-        return !s.isRequestInProcess()
+      .filter({ [unowned self] _ -> Bool in
+        return !self.isRequestInProcess()
       })
-      .subscribe(onNext: { [weak self] _ in
-        self?.obtainNextPage()
+      .subscribe(onNext: { [unowned self] _ in
+        self.obtainNextPage()
       }).addDisposableTo(bag)
   }
   
@@ -66,7 +56,7 @@ class BasePaginationService: BaseNetworkService, NetworkPagination {
   }
   
   func obtainFirstPage() {
-    self.paginationState.value = .firstPage
+    self.paginationState.onNext(.firstPage)
     self.page = 1
     self.obtainData(by: 1)
   }
