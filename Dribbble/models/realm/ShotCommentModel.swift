@@ -40,12 +40,3 @@ class ShotCommentModel: ObjectMappable {
   }
   
 }
-
-// MARK:- PONSO
-// MARK: Feed cell
-
-extension ShotCommentModel {
-  func commentModel() -> CommentCellModel {
-    return CommentCellModel(comment: self)
-  }
-}

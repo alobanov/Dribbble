@@ -34,12 +34,14 @@ struct CommentCellModel: ModelItemDatasourseble, PonsoUnicIdentifirable {
     
     unic = "\(uid)"
   }
-  
-  func height(byWidth: CGFloat) -> CGFloat {
-    let defaultPartAttributes = AZTextFrameAttributes(string: self.text, width: byWidth, font: UIFont.systemFont(ofSize: 15))
-    let firstHeight = AZTextFrame(attributes: defaultPartAttributes).height + 20
-    return firstHeight
-  }
+}
+
+extension CommentCellModel {
+    func height(byWidth: CGFloat) -> CGFloat {
+        let defaultPartAttributes = AZTextFrameAttributes(string: self.text, width: byWidth, font: UIFont.systemFont(ofSize: 15))
+        let firstHeight = AZTextFrame(attributes: defaultPartAttributes).height + 20
+        return firstHeight
+    }
 }
 
 extension String {

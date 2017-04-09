@@ -12,7 +12,7 @@ import RxCocoa
 import RxDataSources
 import Infinity
 
-class ShotViewController: UIViewController, ShotInput {
+class ShotViewController: UIViewController {
   
   // MARK: properties IBOutlets
   // properties
@@ -38,7 +38,7 @@ class ShotViewController: UIViewController, ShotInput {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
-    self.configureUI()
+    self.confUI()
     self.confRxTableView()
     self.configureRx()
   }
@@ -59,7 +59,7 @@ class ShotViewController: UIViewController, ShotInput {
   
   func configureRx() {
     guard let model = viewModel else { return }
-    model.confRx()
+    model.configureRx()
     
     model.title.asObservable()
       .bindTo(self.rx.title)
@@ -75,7 +75,7 @@ class ShotViewController: UIViewController, ShotInput {
         // nothing
       }
     }).disposed(by: bag)
-    
+
     model.paginationState.asObservable().subscribe(onNext: {[weak self] state in
       switch state {
       case .firstPage, .endOfList:
@@ -112,16 +112,11 @@ class ShotViewController: UIViewController, ShotInput {
     
   }
   
-  func configureUI() {
+  func confUI() {
     self.title = "RxController"
   }
   
   // MARK: - Action
-  
-  // MARK: - ShotInput
-//  func show(error: NSError) {
-//    
-//  }
   
   // MARK: - Additional
   

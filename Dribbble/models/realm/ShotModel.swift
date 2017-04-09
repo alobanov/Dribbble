@@ -58,15 +58,6 @@ class ShotModel: ObjectMappable {
   }
   
   var unic: String? {
-    return "\(str_updated_at)"
-  }
-}
-
-// MARK:- PONSO
-// MARK: Feed cell
-
-extension ShotModel {
-  func feedModel() -> FeedCellModel {
-    return FeedCellModel(shot: self)
+    return "\(String(describing: str_updated_at))"
   }
 }

@@ -29,22 +29,17 @@ protocol ShotOutput: RxModelOutput {
   var datasourceItems: Variable<[ModelSection]> {get}
   var paginationState: Variable<PaginationState> {get}
   var shotId: Int {get}
-  func confRx()
   
+  func configureRx()
   func refreshComments()
   func obtainCommentsNextPage()
-}
-
-protocol ShotInput: class {
-  //  func show(error: NSError)
 }
 
 class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   
   // MARK:- dependencies
-  fileprivate weak var view: ShotInput!
   var router: ShotRouterInput!
-  fileprivate var commentService: CommentNetworkService!
+  fileprivate var commentService: CommentNetworkPagination!
   
   // MARK:- properties
   // ShotOutput
@@ -56,13 +51,7 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   // Private
   
   // MARK:- init
-  init(dependencies:(
-    view: ShotInput,
-    router: ShotRouterInput,
-    commentService: CommentNetworkService,
-    shotId: Int
-    )) {
-    self.view = dependencies.view
+  init(dependencies:InputDependencies) {
     self.router = dependencies.router
     self.commentService = dependencies.commentService
     self.shotId = dependencies.shotId
@@ -71,54 +60,33 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
   }
   
   // Output
-  func confRx() {
+  func configureRx() {
     
-    self.commentService.displayError.bindTo(self._displayError).addDisposableTo(bag)
-    self.commentService.loadingState.bindTo(self._loadingState).addDisposableTo(bag)
+    self.commentService.networkError.map { $0.error }.bindTo(self._displayError).addDisposableTo(bag)
+    self.commentService.commonNetworkState.map { $0.state }.bindTo(self._loadingState).addDisposableTo(bag)
     self.commentService.paginationState.asObservable().bindTo(self.paginationState).addDisposableTo(bag)
     
     self.commentService.comments
-      .asObservable().skip(1)
-      .observeOn(Schedulers.shared.backgroundWorkScheduler)
+      .asObservable()
+      .observeOn(Schedulers.shared.backgroundWorkScheduler) // in bg
       .map({ comments -> [CommentCellModel] in
-        return comments.map { $0.commentModel() }
+        return comments.map(CommentCellModel.init)
       })
       .map({ items -> [CommentCellModel] in
         return removeDuplicates(source: items)
       })
-      .map({[weak self] items -> [ModelSection] in
-        return self?.prepareForDatasource(list: items) ?? []
+      .map({ items -> [ModelSection] in
+        return items.prepareForDatasource()
       })
-      .observeOn(Schedulers.shared.mainScheduler)
+      .observeOn(Schedulers.shared.mainScheduler) // in main thread
       .bindTo(self.datasourceItems)
       .addDisposableTo(bag)
-    
   }
   
   // MARK: - Additional
   
-  deinit {
-    print("-- ShotViewModel dead")
-  }
-}
-
-// MARK: - Additional helpers
-extension ShotViewModel {
+  // MARK: - Networking
   
-  /// Wrap ShotModels into datasource protocols
-  ///
-  /// - Parameter list: ShotModel
-  /// - Returns: Wrapped array of ModelSection
-  func prepareForDatasource(list: [CommentCellModel]) -> [ModelSection] {
-    var renderItemsData: [ModelSectionItem] = []
-    renderItemsData = list.map { ModelSectionItem(model: $0) }
-    return [ModelSection(items: renderItemsData)]
-  }
-  
-}
-
-// MARK: - Network
-extension ShotViewModel {
   func refreshComments() {
     self.commentService.refreshTrigger.onNext()
   }
@@ -126,5 +94,22 @@ extension ShotViewModel {
   func obtainCommentsNextPage() {
     self.commentService.loadNextPageTrigger.onNext()
   }
+
+  
+  deinit {
+    print("-- ShotViewModel dead")
+  }
 }
+
+extension ShotViewModel: ViewModelType {
+  struct InputDependencies {
+    let router: ShotRouterInput
+    let commentService: CommentNetworkPagination
+    let shotId: Int
+  }
+}
+
+// MARK: - Network
+extension ShotViewModel {
+  }
 

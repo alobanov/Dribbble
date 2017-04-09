@@ -23,8 +23,8 @@ class FeedControllerMock: FeedInput {
 }
 
 class FeedRouterMock: FeedRouterInput {
-  func passDataToNextScene(segue: UIStoryboardSegue) {}
-  func navigateTo() {}
+  func passDataToNextScene(segue: UIStoryboardSegue){}
+  func navigateToShot(byId: Int){}
 }
 
 class FeedModelSpec: QuickSpec {
@@ -42,7 +42,7 @@ class FeedModelSpec: QuickSpec {
       
       beforeSuite {
         testRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "test"))
-        let model: FeedViewModel = FeedViewModel(dependencies: (view: FeedControllerMock(), router: FeedRouterMock(), api: self.api, realm: testRealm, appSettings: self.appSettings))
+        let model: FeedViewModel = FeedViewModel(dependencies: FeedViewModel.InputDependencies(view: FeedControllerMock(), router: FeedRouterMock(), api: self.api, realm: testRealm, appSettings: self.appSettings))
         
         self.modelPublic = model as FeedOutput
         self.modelTestable = model as FeedViewModelTestable

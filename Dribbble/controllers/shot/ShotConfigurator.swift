@@ -16,16 +16,15 @@ class ShotConfigurator
   {
     // router
     let router = ShotRouter()
-//    router.viewController = viewController
+    router.viewController = viewController
 
     // dependencies
     let api = Networking.debugNetworking()
     let commentService = CommentNetworkService(api: api, shotId: shotID)
     
     // view model
-    let viewModel = ShotViewModel(
-      dependencies: (view: viewController, router: router, commentService: commentService, shotId: shotID)
-    )
+    let dependencies = ShotViewModel.InputDependencies(router: router, commentService: commentService, shotId: shotID)
+    let viewModel = ShotViewModel(dependencies: dependencies)
     
     // controller
     viewController.viewModel = viewModel

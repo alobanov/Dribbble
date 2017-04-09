@@ -12,6 +12,14 @@ protocol ModelItemDatasourseble {
   var unic: String? { get }
 }
 
+extension Array where Element : ModelItemDatasourseble {
+  func prepareForDatasource() -> [ModelSection] {
+    var renderItemsData: [ModelSectionItem] = []
+    renderItemsData = self.map { ModelSectionItem(model: $0) }
+    return [ModelSection(items: renderItemsData)]
+  }
+}
+
 /**
  *  Reloadeble protocol for all registration cell
  */
