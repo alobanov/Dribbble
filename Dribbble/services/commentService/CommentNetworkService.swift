@@ -19,10 +19,6 @@ class CommentNetworkService: PaginationService, CommentNetworkPagination {
   // Dependencies
   private var shotId: Int!
   
-  // internal
-  private var page = 1
-  private let perPage = 10
-  
   // Public
   var comments = Variable<[ShotCommentModel]>([])
   

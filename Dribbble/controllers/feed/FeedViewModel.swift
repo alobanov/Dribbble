@@ -24,11 +24,11 @@ protocol FeedOutput: RxModelOutput {
   func confRx(changeLayoutTap: Driver<Void>)
   
   // observable
-  var title: Variable<String> {get}
+  var title: Observable<String> {get}
   var datasourceItems: Variable<[ModelSection]> {get}
   var loadNextPageTrigger: PublishSubject<Void> {get}
   var refreshTrigger: PublishSubject<Void> {get}
-  var currentLayout: Variable<CurrentLayout> {get} // TODO: Implement tests!
+  var currentLayout: Variable<CurrentLayout> {get}
   var paginationState: Variable<PaginationState> {get}
 }
 
@@ -41,7 +41,10 @@ class FeedViewModel: RxViewModel, FeedOutput {
   // MARK:- properties
   // FeedOutput
   
-  var title = Variable<String>("Dribbble")
+  var title: Observable<String> {
+    return .just("Dribbble")
+  }
+  
   var datasourceItems = Variable<[ModelSection]>([])
   var loadNextPageTrigger = PublishSubject<Void>()
   var refreshTrigger = PublishSubject<Void>()
@@ -69,7 +72,7 @@ class FeedViewModel: RxViewModel, FeedOutput {
     self.feedService.shots
       .asObservable().skip(1)
       .map({ comments -> [FeedCellModel] in
-        return comments.map { $0.feedModel() }
+        return comments.map(FeedCellModel.init)
       })
       .observeOn(Schedulers.shared.backgroundWorkScheduler)
       .map({ items -> [FeedCellModel] in

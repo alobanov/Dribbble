@@ -266,7 +266,6 @@
 		E82D6F8B1E2E601300A1F7AA /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E8447C491E5B0B7B000C9062 /* RTLabel */,
 				E8447C461E5ABFE8000C9062 /* AZText */,
 				E82D6F9F1E2F437F00A1F7AA /* FileReader */,
 				E82D6FA11E2F437F00A1F7AA /* JSONReader */,
@@ -634,13 +633,6 @@
 				E8447C471E5ABFFD000C9062 /* AZTextFrame.swift */,
 			);
 			path = AZText;
-			sourceTree = "<group>";
-		};
-		E8447C491E5B0B7B000C9062 /* RTLabel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = RTLabel;
 			sourceTree = "<group>";
 		};
 		E86CD8621E47724600A8F4FC /* enum */ = {

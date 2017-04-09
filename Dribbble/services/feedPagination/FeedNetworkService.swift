@@ -23,10 +23,6 @@ class FeedNetworkService: PaginationService, FeedNetworkPagination {
   fileprivate var realm: Realm!
   fileprivate var appSettings: AppSettingsStorage?
   
-  // internal
-  private var page = 1
-  private let perPage = 10
-  
   // Public
   var shots = Variable<[ShotModel]>([])
   

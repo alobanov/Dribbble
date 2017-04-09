@@ -9,21 +9,22 @@
 import Foundation
 import RxSwift
 
-/// Method identifier
-enum NetworkReqestType {
-  case shots
-  case shotComments
-  case unknown
-}
-
 struct NetworkError {
   let type: NetworkReqestType
   let error: NSError
+  
+  static func unknown() -> NetworkError {
+    return NetworkError(type: .unknown, error: AppError.dummyError.error)
+  }
 }
 
 struct NetworkState {
   let type: NetworkReqestType
   let state: LoadingState
+  
+  static func unknown() -> NetworkState {
+    return NetworkState(type: .unknown, state: .unknown)
+  }
 }
 
 protocol NetworkServiceStateble {
@@ -45,8 +46,8 @@ class NetworkService {
   // Dependencies
   var api: Networking!
   private var requestInProcess = false
-  internal var _networkError = Variable<NetworkError>(NetworkError(type: .unknown, error: AppError.dummyError.error))
-  internal var _commonNetworkState = Variable<NetworkState>(NetworkState(type: .unknown, state: .unknown))
+  internal var _networkError = Variable<NetworkError>(NetworkError.unknown())
+  internal var _commonNetworkState = Variable<NetworkState>(NetworkState.unknown())
   
   init(api: Networking) {
     self.api = api
@@ -60,12 +61,11 @@ class NetworkService {
   }
   
   func handleResponse<E>(_ response: Observable<E>, networkReqestType: NetworkReqestType) -> Observable<E> {
-    return response.map {[weak self] (event) -> E in
+    return response.map {[weak self] event -> E in
       self?._commonNetworkState.value = NetworkState(type: networkReqestType, state: .normal)
       return event
-      }.do(onError: {[weak self] (err) in
-        let e = err as NSError
-        self?.throwError(type: networkReqestType, error: e)
+      }.do(onError: {[weak self] err in
+        self?.throwError(type: networkReqestType, error: err as NSError)
       })
   }
   

@@ -17,6 +17,13 @@ private extension String {
   }
 }
 
+/// Method identifier
+enum NetworkReqestType {
+  case shots
+  case shotComments
+  case unknown
+}
+
 enum DribbbleAPI {
   //
   // Shots http://developer.dribbble.com/v1/shots/
@@ -96,6 +103,15 @@ extension DribbbleAPI : TargetType {
       }
     case .shotComments:
       return JSONReader.readJSONData("Comment")
+    }
+  }
+  
+  var methodIdentifier: Int {
+    switch self {
+    case .shots:
+      return 1
+    case .shotComments:
+      return 2
     }
   }
   

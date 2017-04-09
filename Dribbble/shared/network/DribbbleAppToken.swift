@@ -9,7 +9,6 @@
 import Foundation
 import Keys
 
-
 fileprivate struct DribbbleAPIConfig {
   fileprivate static let keys = DribbbleKeys()
   static let clientSecret = keys.dribbbleClientSecret()

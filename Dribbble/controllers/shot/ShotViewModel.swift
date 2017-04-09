@@ -68,9 +68,9 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
     
     self.commentService.comments
       .asObservable()
-      .observeOn(Schedulers.shared.backgroundWorkScheduler)
+      .observeOn(Schedulers.shared.backgroundWorkScheduler) // in bg
       .map({ comments -> [CommentCellModel] in
-        return comments.map { $0.commentModel() }
+        return comments.map(CommentCellModel.init)
       })
       .map({ items -> [CommentCellModel] in
         return removeDuplicates(source: items)
@@ -78,12 +78,23 @@ class ShotViewModel: RxViewModel, ShotOutput, ShotModuleInput, ShotTestable {
       .map({ items -> [ModelSection] in
         return items.prepareForDatasource()
       })
-      .observeOn(Schedulers.shared.mainScheduler)
+      .observeOn(Schedulers.shared.mainScheduler) // in main thread
       .bindTo(self.datasourceItems)
       .addDisposableTo(bag)
   }
   
   // MARK: - Additional
+  
+  // MARK: - Networking
+  
+  func refreshComments() {
+    self.commentService.refreshTrigger.onNext()
+  }
+  
+  func obtainCommentsNextPage() {
+    self.commentService.loadNextPageTrigger.onNext()
+  }
+
   
   deinit {
     print("-- ShotViewModel dead")
@@ -98,19 +109,7 @@ extension ShotViewModel: ViewModelType {
   }
 }
 
-// MARK: - Additional helpers
-extension ShotViewModel {
-  
-}
-
 // MARK: - Network
 extension ShotViewModel {
-  func refreshComments() {
-    self.commentService.refreshTrigger.onNext()
   }
-  
-  func obtainCommentsNextPage() {
-    self.commentService.loadNextPageTrigger.onNext()
-  }
-}
 

@@ -18,8 +18,8 @@ protocol NetworkPagination: NetworkServiceStateble {
 class PaginationService: NetworkService, NetworkPagination {
   
   // internal
-  private var page = 1
-  private let perPage = 10
+  var page = 1
+  let perPage = 10
   
   // Public
   var loadNextPageTrigger = PublishSubject<Void>()

@@ -63,9 +63,7 @@ class FeedViewController: UIViewController {
     guard let model = viewModel else { return }
     model.confRx(changeLayoutTap: self.rightNavButton.rx.tap.asDriver())
     
-    model.title.asObservable()
-      .bindTo(self.rx.title)
-      .disposed(by: bag)
+    model.title.bindTo(self.rx.title).disposed(by: bag)
     
     model.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
@@ -112,8 +110,6 @@ class FeedViewController: UIViewController {
   }
   
   func configureUI() {
-    self.title = "RxController"
-    
     self.rightNavButton = UIBarButtonItem(image: nil, style: UIBarButtonItemStyle.done, target: nil, action: nil)
     self.navigationItem.rightBarButtonItem = self.rightNavButton
   }
