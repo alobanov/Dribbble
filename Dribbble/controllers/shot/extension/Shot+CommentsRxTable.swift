@@ -12,24 +12,6 @@ import Infinity
 
 // Collection view RxDataSource
 extension ShotViewController {
-  func confRxTableView() {
-    guard let viewModel = self.viewModel else { return }
-    
-    tableView.registerCell(by: CommentShotCell.cellIdentifier)
-    
-    let dataSource = RxTableViewSectionedAnimatedDataSource<ModelSection>()
-    dataSource.animationConfiguration = AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .fade)
-    rxTableViewDataSource(dataSource)
-    
-    viewModel.datasourceItems
-      .asObservable()
-      .bindTo(tableView.rx.items(dataSource: dataSource))
-      .addDisposableTo(bag)
-    
-    tableView.rx.setDelegate(self).addDisposableTo(bag);
-    
-    self.dataSource = dataSource
-  }
   
   // MARK: Configurate Rx DataSource
   
@@ -46,17 +28,6 @@ extension ShotViewController {
       
       return cell
     }
-    
-    tableView.rx.modelSelected(ModelSectionItem.self)
-      .subscribe(onNext: {[weak self] model in
-        self?.tableSelectWithModel(model: model)
-      }).addDisposableTo(bag)
-  }
-  
-  // MARK: Table cell action
-  
-  func tableSelectWithModel(model: ModelSectionItem) {
-    print(model)
   }
 }
 

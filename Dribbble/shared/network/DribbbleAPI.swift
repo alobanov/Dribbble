@@ -115,17 +115,7 @@ extension DribbbleAPI : TargetType {
     }
   }
   
-  var multipartBody: [Moya.MultipartFormData]? {
-    return []
-    //    switch self {
-    //    case .registrateNewClient(_, _, let imageData):
-    //      guard let data = imageData else { return nil }
-    //      let mdata = MultipartFormData(provider: .data(data), name: "file_avatar", fileName: "photo.jpg", mimeType: "image/jpeg")
-    //      return [mdata]
-    //    default:
-    //      return []
-    //    }
-  }
+  
 }
 
 func urlTransform(_ route: TargetType) -> String {

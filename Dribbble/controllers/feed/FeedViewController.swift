@@ -24,7 +24,7 @@ class FeedViewController: UIViewController {
   var viewModel: FeedOutput?
   
   // Private    
-  var bag: DisposeBag! = DisposeBag()
+  var bag = DisposeBag()
   
   // MARK: Life Cycle
   
@@ -40,32 +40,31 @@ class FeedViewController: UIViewController {
     
     // Do any additional setup after loading the view.
     self.configureUI()
-    self.configureRx()
-    self.confRxCollectionView()
+    try! self.configureRx()
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
-    
-  }
-  
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    self.viewModel?.router.passDataToNextScene(segue: segue)
   }
   
   // MARK: Configuration
   
-  func configureRx() {
-    guard let model = viewModel else { return }
-    model.confRx(changeLayoutTap: self.rightNavButton.rx.tap.asDriver())
+  func configureRx() throws {
+    guard let model = viewModel else {
+      fatalError("Need set view model")
+    }
     
-    model.title.bindTo(self.rx.title).disposed(by: bag)
+    let input = FeedViewModel.Input(changeLayoutTap: self.rightNavButton.rx.tap.asDriver(),
+                                    selectedCell: self.collectionView.rx.modelSelected(ModelSectionItem.self).asDriver())
     
-    model.loadingState.subscribe(onNext: {[weak self] (state) in
+    let output = model.configure(input: input)
+    
+    /// Binding output
+    
+    output.title.bind(to: self.rx.title).disposed(by: bag)
+    
+    output.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
       case .normal, .error, .empty:
         self?.stopCommentActivity()
@@ -75,25 +74,27 @@ class FeedViewController: UIViewController {
       }
     }).disposed(by: bag)
     
-    model.displayError.subscribe(onNext: { err in
+    output.displayError.subscribe(onNext: { err in
       Popup.showNavError(err)
     }).disposed(by: bag)
     
+    /// Push to refresh and infinite scroll
+    
     let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     collectionView.fty.pullToRefresh.add(animator: animator) { _ in
-      model.refreshTrigger.onNext()
+      output.refreshTrigger.onNext()
     }
     
     let animator2 = DefaultInfiniteAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
     collectionView.fty.infiniteScroll.add(animator: animator2) { _ in
-      model.loadNextPageTrigger.onNext()
+      output.loadNextPageTrigger.onNext()
     }
     
-    model.currentLayout.asObservable().subscribe(onNext: {[weak self] layout in
+    output.currentLayout.asObservable().subscribe(onNext: {[weak self] layout in
         self?.updateLayout(layout: layout)
     }).disposed(by: bag)
     
-    model.paginationState.asObservable().subscribe(onNext: {[weak self] state in
+    output.paginationState.asObservable().subscribe(onNext: {[weak self] state in
       switch state {
       case .firstPage, .endOfList, .undefined:
         self?.enableInfinityScroll(state: false)
@@ -105,13 +106,25 @@ class FeedViewController: UIViewController {
       }
     }).addDisposableTo(bag)
     
-    // refresh first page on start
-    model.refreshTrigger.onNext()
+    /// Refresh first page on start
+    
+    output.refreshTrigger.onNext()
+    
+    /// Collection view
+    
+    let dataSource = RxCollectionViewSectionedAnimatedDataSource<ModelSection>()
+    rxTableViewDataSource(dataSource)
+    
+    output.datasourceItems
+      .bind(to: self.collectionView.rx.items(dataSource: dataSource))
+      .addDisposableTo(bag)
   }
   
   func configureUI() {
     self.rightNavButton = UIBarButtonItem(image: nil, style: UIBarButtonItemStyle.done, target: nil, action: nil)
     self.navigationItem.rightBarButtonItem = self.rightNavButton
+    
+    collectionView.registerCell(by: ShotSmallCell.cellIdentifier)
   }
   
   // MARK: - Action

@@ -43,6 +43,12 @@ class FeedNetworkService: PaginationService, FeedNetworkPagination {
       .request(method)
       .mapJSONObjectArray(ShotModel.self, realm: self.realm)
     
+    response.subscribe(onNext: { list in
+      print(list)
+    }, onError: { err in
+      print(err)
+    }).addDisposableTo(bag)
+    
     // prepare result
     let result = self.handleResponse(response, networkReqestType: .shots)
       .do(onNext: {[weak self] shots in
@@ -63,7 +69,7 @@ class FeedNetworkService: PaginationService, FeedNetworkPagination {
       }
       .take(1)
       .observeOn(Schedulers.shared.mainScheduler)
-      .bindTo(self.shots)
+      .bind(to: self.shots)
       .disposed(by: bag)
   }
   

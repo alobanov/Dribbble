@@ -10,7 +10,6 @@ import UIKit
 
 protocol ShotRouterInput
 {
-  func passDataToNextScene(segue: UIStoryboardSegue)
   func navigateTo()
 }
 
@@ -22,23 +21,5 @@ class ShotRouter: ShotRouterInput
   
   func navigateTo() {
     // navigate here
-  }
-  
-  // MARK: Communication
-  
-  func passDataToNextScene(segue: UIStoryboardSegue)
-  {
-//    if segue.identifier == ViewController.segueID {
-//      passDataToController(segue: segue)
-//    }
-  }
-  
-  func passDataToProfile(segue: UIStoryboardSegue) {
-//    let vc = segue.destination as! ViewController
-//    Configurator.configure(viewController: vc)
-  }
-  
-  deinit {
-    print("-- ShotRouter dead")
   }
 }

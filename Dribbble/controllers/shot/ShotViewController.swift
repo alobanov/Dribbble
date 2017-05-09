@@ -26,6 +26,9 @@ class ShotViewController: UIViewController {
   var bag: DisposeBag = DisposeBag()
   var dataSource: RxTableViewSectionedAnimatedDataSource<ModelSection>?
   
+  var obtainCommentsNextPage = PublishSubject<Void>()
+  var refreshComments = PublishSubject<Void>()
+  
   // MARK: Life Cycle
   
   override func awakeFromNib() {
@@ -39,8 +42,7 @@ class ShotViewController: UIViewController {
     
     // Do any additional setup after loading the view.
     self.confUI()
-    self.confRxTableView()
-    self.configureRx()
+    try! self.configureRx()
   }
   
   override func didReceiveMemoryWarning() {
@@ -50,22 +52,20 @@ class ShotViewController: UIViewController {
   
   // MARK: - Navigation
   
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    self.viewModel?.router.passDataToNextScene(segue: segue)
-  }
-  
   // MARK: Configuration
   
-  func configureRx() {
-    guard let model = viewModel else { return }
-    model.configureRx()
+  func configureRx() throws {
+    guard let model = viewModel else {
+      fatalError("Need set view model")
+    }
     
-    model.title.asObservable()
-      .bindTo(self.rx.title)
-      .addDisposableTo(bag)
+    let input = ShotViewModel.Input(refreshComments: refreshComments,
+                                    obtainComments: obtainCommentsNextPage)
+    let output = model.configure(input: input)
     
-    model.loadingState.subscribe(onNext: {[weak self] (state) in
+    output.title.bind(to: self.rx.title).addDisposableTo(bag)
+    
+    output.loadingState.subscribe(onNext: {[weak self] (state) in
       switch state {
       case .normal, .error, .empty:
         self?.stopCommentActivity()
@@ -76,12 +76,8 @@ class ShotViewController: UIViewController {
       }
     }).disposed(by: bag)
 
-    model.paginationState.asObservable().subscribe(onNext: {[weak self] state in
+    output.paginationState.asObservable().subscribe(onNext: {[weak self] state in
       switch state {
-      case .firstPage, .endOfList:
-        self?.enableInfinityScroll(state: false)
-        break
-        
       case .morePage:
         self?.enableInfinityScroll(state: true)
         break
@@ -92,31 +88,44 @@ class ShotViewController: UIViewController {
       }
     }).addDisposableTo(bag)
     
-    model.displayError.subscribe(onNext: { err in
+    output.displayError.subscribe(onNext: { err in
       Popup.showNavError(err)
     }).disposed(by: bag)
     
     // refresh first page on start
-    model.refreshComments()
+    self.refreshComments.onNext()
     
     let animator2 = DefaultInfiniteAnimator(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-    tableView.fty.infiniteScroll.add(animator: animator2) { _ in
-      model.obtainCommentsNextPage()
+    tableView.fty.infiniteScroll.add(animator: animator2) { [weak self] _ in
+      self?.obtainCommentsNextPage.onNext()
     }
     
     let animator = DefaultRefreshAnimator(frame: CGRect(x: 0, y: 10, width: 24, height: 24))
-    tableView.fty.pullToRefresh.add(animator: animator) { _ in
-      model.refreshComments()
+    tableView.fty.pullToRefresh.add(animator: animator) { [weak self] _ in
+      self?.refreshComments.onNext()
     }
     tableView.fty.infiniteScroll.isEnabled = false
     
+    let dataSource = RxTableViewSectionedAnimatedDataSource<ModelSection>()
+    dataSource.animationConfiguration = AnimationConfiguration(insertAnimation: .fade,
+                                                               reloadAnimation: .fade,
+                                                               deleteAnimation: .fade)
+    rxTableViewDataSource(dataSource)
+    
+    output.datasourceItems
+      .bind(to: tableView.rx.items(dataSource: dataSource))
+      .addDisposableTo(bag)
+    
+    self.tableView.rx.setDelegate(self).addDisposableTo(bag)
+    
+    self.dataSource = dataSource
   }
   
   func confUI() {
     self.title = "RxController"
+    
+    tableView.registerCell(by: CommentShotCell.cellIdentifier)
   }
-  
-  // MARK: - Action
   
   // MARK: - Additional
   

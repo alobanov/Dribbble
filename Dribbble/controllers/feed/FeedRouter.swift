@@ -10,7 +10,6 @@ import UIKit
 
 protocol FeedRouterInput
 {
-  func passDataToNextScene(segue: UIStoryboardSegue)
   func navigateToShot(byId: Int)
 }
 
@@ -22,24 +21,9 @@ class FeedRouter: FeedRouterInput
   // MARK: Navigation
   
   func navigateToShot(byId: Int) {
-    // navigate here
     let shot: ShotViewController = UIStoryboard(storyboard: .main).instantiateViewController()
     ShotConfigurator.configure(viewController: shot, shotID: byId)
-    
     viewController.navigationController?.pushViewController(shot, animated: true)
   }
   
-  // MARK: Communication
-  
-  func passDataToNextScene(segue: UIStoryboardSegue)
-  {
-//    if segue.identifier == ViewController.segueID {
-//      passDataToController(segue: segue)
-//    }
-  }
-  
-  func passDataToProfile(segue: UIStoryboardSegue) {
-//    let vc = segue.destination as! ViewController
-//    Configurator.configure(viewController: vc)
-  }
 }

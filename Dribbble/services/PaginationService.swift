@@ -18,8 +18,8 @@ protocol NetworkPagination: NetworkServiceStateble {
 class PaginationService: NetworkService, NetworkPagination {
   
   // internal
-  var page = 1
-  let perPage = 10
+  var page = 0
+  let perPage = 100
   
   // Public
   var loadNextPageTrigger = PublishSubject<Void>()
@@ -56,8 +56,8 @@ class PaginationService: NetworkService, NetworkPagination {
   }
   
   func obtainFirstPage() {
-    self.paginationState.onNext(.firstPage)
     self.page = 1
+    self.paginationState.onNext(.firstPage)
     self.obtainData(by: 1)
   }
   

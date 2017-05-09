@@ -57,8 +57,8 @@ class FeedNetSpec: QuickSpec {
           let created_at = formatter.date(from: "2017-01-18T10:00:01Z")!
           let updated_at = formatter.date(from: "2017-01-18T10:00:03Z")!
           
-          expect(shot.created_at as? Date).to(equal(created_at))
-          expect(shot.updated_at as? Date).to(equal(updated_at))
+          expect(shot.created_at as Date?).to(equal(created_at))
+          expect(shot.updated_at as Date?).to(equal(updated_at))
           
           // nested objects
           expect(shot.image).toEventuallyNot(beNil())

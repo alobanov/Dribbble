@@ -51,6 +51,8 @@ extension ModelSection: AnimatableSectionModelType {
     return header
   }
   
+  
+  
   init(original: ModelSection, items: [Item]) {
     self = original
     self.items = items

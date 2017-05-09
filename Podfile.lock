@@ -4,7 +4,7 @@ PODS:
   - Font-Awesome-Swift (1.6.1)
   - Infinity (3.0.2)
   - Keys (1.0.0)
-  - Kingfisher (3.6.1)
+  - Kingfisher (3.6.2)
   - Moya/Core (8.0.3):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -17,21 +17,21 @@ PODS:
   - PopupDialog (0.5.4)
   - Quick (1.1.0)
   - ReachabilitySwift (3)
-  - Realm (2.5.0):
-    - Realm/Headers (= 2.5.0)
-  - Realm/Headers (2.5.0)
-  - RealmSwift (2.5.0):
-    - Realm (= 2.5.0)
+  - Realm (2.5.1):
+    - Realm/Headers (= 2.5.1)
+  - Realm/Headers (2.5.1)
+  - RealmSwift (2.5.1):
+    - Realm (= 2.5.1)
   - Result (3.2.1)
-  - RxBlocking (3.3.1):
-    - RxSwift (~> 3.3)
-  - RxCocoa (3.3.1):
-    - RxSwift (~> 3.3)
+  - RxBlocking (3.4.0):
+    - RxSwift (~> 3.4)
+  - RxCocoa (3.4.0):
+    - RxSwift (~> 3.4)
   - RxDataSources (1.0.3):
     - RxCocoa (~> 3.0)
     - RxSwift (~> 3.0)
-  - RxSwift (3.3.1)
-  - SwiftDate (4.1.0)
+  - RxSwift (3.4.0)
+  - SwiftDate (4.1.1)
   - SwiftMessages (3.3.3)
   - SwiftyUserDefaults (3.0.0)
   - UIColor_Hex_Swift (3.0.2)
@@ -69,7 +69,7 @@ SPEC CHECKSUMS:
   Font-Awesome-Swift: 70ab020f6749d7048bb49807c3e78b702d78afca
   Infinity: 58f5c6d0dac4976d021c11897bd0a122f55e22f3
   Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
-  Kingfisher: 2f31cb75f3e98d3d4c406cbdcd9b263e956cfa67
+  Kingfisher: 2c94e72c6830622c71d06adf4ea024c37d316830
   Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
   Nimble: c53e6903fee94041b90ded74f135820437d8bf59
   OAuthSwift: 6e3a103b3e5639411769cc7e199ec7e14bd1547f
@@ -77,14 +77,14 @@ SPEC CHECKSUMS:
   PopupDialog: 75cf955693590b0cb2fdde00223fb65d99c57247
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  Realm: 62abce501668580092d2be9b6ba7324a3d5f906a
-  RealmSwift: 9f1a8f624f2f153410115c2cb7d486be9976565d
+  Realm: 32f86104d37c8521f864d4274050b38ba6190733
+  RealmSwift: f719e7511c902b8908593e8f143f59e47931bdb6
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
-  RxBlocking: c5918ecb86b8c205a8ccc6d1ff2abb338ddc50a0
-  RxCocoa: 7dcb7a1860fc9cd0e23dae67ab105fc2916670b6
+  RxBlocking: 1797b8c1a3ad7b08965145e6e2294c2e101515aa
+  RxCocoa: d14ef6b6029e1ddc6e966508c09289090de68ff9
   RxDataSources: a021a0e944ba5f7991259829d973afdbfa719c0b
-  RxSwift: 8fc9f2de6275a9101d518444e00bf32f1a42caac
-  SwiftDate: 1cb9a0a930a1f0fff392806829fed0ee370ff94f
+  RxSwift: 3789a1af753002a14edecdb698a2424624296a9c
+  SwiftDate: ae615078806a322183e5f64e02e80ca8d939bf48
   SwiftMessages: 09cea3336e3fb63c3578983c8aac65acaa6d884a
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   UIColor_Hex_Swift: 95f718452092a3efc8a827dffd2c04d3237be02d

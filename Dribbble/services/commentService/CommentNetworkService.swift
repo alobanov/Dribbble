@@ -48,11 +48,11 @@ class CommentNetworkService: PaginationService, CommentNetworkPagination {
         return (page == 1) ? new : exists + new
       }
       .take(1)
-      .bindTo(self.comments)
+      .bind(to: self.comments)
       .disposed(by: bag)
   }
   
   deinit {
-    print("--- CommentNetworkService dead")
+    print(#file, #line, "--- CommentNetworkService dead")
   }
 }

@@ -11,26 +11,16 @@ import RxDataSources
 
 // Collection view RxDataSource
 extension FeedViewController {
-  func confRxCollectionView() {
-    guard let viewModel = self.viewModel else { return }
-    
-    collectionView.registerCell(by: ShotSmallCell.cellIdentifier)
-    
-    let dataSource = RxCollectionViewSectionedAnimatedDataSource<ModelSection>()
-    rxTableViewDataSource(dataSource)
-    
-    viewModel.datasourceItems
-      .asObservable()
-      .bindTo(self.collectionView.rx.items(dataSource: dataSource))
-      .addDisposableTo(bag)
-  }
   
   // MARK: Configurate Rx DataSource
   
   func rxTableViewDataSource(_ dataSource: RxCollectionViewSectionedAnimatedDataSource<ModelSection>) {
-    dataSource.configureCell = {(dataSource, collectionView, idxPath, _) in
+    dataSource.configureCell = { (dataSource, collectionView, idxPath, _) in
       
-      let item: ModelSectionItem = try! dataSource.model(at: idxPath) as! ModelSectionItem
+      guard let item: ModelSectionItem = try! dataSource.model(at: idxPath) as? ModelSectionItem else {
+        return UICollectionViewCell(frame: CGRect.zero)
+      }
+      
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShotSmallCell.cellIdentifier, for: idxPath) as? ShotSmallCell else {
         return UICollectionViewCell(frame: CGRect.zero)
       }
@@ -41,27 +31,12 @@ extension FeedViewController {
       
       return cell
     }
-    
-    collectionView.rx.modelSelected(ModelSectionItem.self)
-      .subscribe(onNext: {[weak self] model in
-        self?.tableSelectWithModel(model: model)
-      }).addDisposableTo(bag)
-  }
-  
-  // MARK: Table cell action
-  
-  func tableSelectWithModel(model: ModelSectionItem) {
-    guard let m: FeedCellModel = model.model as? FeedCellModel else {
-      return;
-    }
-    
-    self.viewModel?.router.navigateToShot(byId: m.uid)
   }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension FeedViewController : UICollectionViewDelegateFlowLayout {
-  
+
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     if let layout = collectionViewLayout as? UICollectionViewFlowLayout {

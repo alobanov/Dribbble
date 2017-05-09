@@ -28,9 +28,7 @@ class FeedConfigurator
     let service: FeedNetworkPagination = FeedNetworkService(api: api, realm: realm!, appSettings: appSettings)
     let dependencies = FeedViewModel.InputDependencies(router: router, feedService: service)
     
-    let viewModel = FeedViewModel(
-      dependencies: dependencies
-    )
+    let viewModel = FeedViewModel(dependencies: dependencies)
     
     // controller
     viewController.viewModel = viewModel
