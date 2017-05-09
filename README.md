@@ -5,7 +5,7 @@ This is an example project to demonstrate MVVM ([Model-View-ViewModel](https://e
 ## Requirements
 
 - Xcode 8.4 or later
-- [Dribble](https://github.com/settings/tokens) personal access token, to setup it use [cocoapods-keys](https://github.com/orta/cocoapods-keys)
+- [Dribbble](https://github.com/settings/tokens) personal access token, to setup it use [cocoapods-keys](https://github.com/orta/cocoapods-keys)
 
 ## Keys
 ```
